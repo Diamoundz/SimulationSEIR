@@ -5,32 +5,45 @@
  */
 
 package com.main;
+import com.main.Utils;
 
 public class Main{
 
-    private double clockRunSpeed = 1f/60;
+    public static Main instance;
+    private static double clockRunSpeed = (1f/60f)*1000f;
     private boolean isRunning = false;
+
+    public long startTime;
+
+    public Main(){
+        instance = this;
+    }
 
     public static void main(String[] args){
         Main mainProgram = new Main();
+        mainProgram.startTime = System.nanoTime();
 
-        mainProgram.InitProgram();
         mainProgram.isRunning = true;
+        mainProgram.Awake();
+        mainProgram.Start();
         while (mainProgram.isRunning) {
             mainProgram.Update();
+            Utils.wait((int)clockRunSpeed);
         }
         
     }
-    private void InitProgram(){
-        System.out.println("Initialized Program");
-        Start();
+
+    private void Awake(){
+        Utils.Debug("Program awake");
     }
     
     private void Start(){
-        
+        Utils.Debug("Program start");
     }
     private void Update(){
 
     }
+
+
 
 }

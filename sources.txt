@@ -1,3 +1,6 @@
+./src/Utils.java
+./src/Subject.java
 ./src/Interface.java
-./src/Humain.java
+./src/Vector2.java
+./src/Grid.java
 ./src/Main.java
