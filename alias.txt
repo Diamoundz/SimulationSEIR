@@ -1,0 +1,1 @@
+alias r='find ./src/ -type f -name "*.java" > sources.txt; javac -d ./build/ @sources.txt; java -cp ./build/ com.visual.Interface'
