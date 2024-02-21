@@ -1,4 +1,4 @@
-package src;
+package com.main;
 
 public class Humain {
     public double dE;

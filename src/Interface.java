@@ -1,4 +1,4 @@
-package com.main;
+package com.visual;
 
 import javax.swing.JFrame;
 

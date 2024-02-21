@@ -1,2 +1,3 @@
+./src/Interface.java
 ./src/Humain.java
 ./src/Main.java
