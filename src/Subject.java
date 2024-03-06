@@ -11,8 +11,6 @@ public class Subject {
         R
     }
 
-    private Vector2 position;
-
     private Status status;
     private float statusTime;
 
@@ -31,4 +29,5 @@ public class Subject {
     {
         return status;
     }
+
 }

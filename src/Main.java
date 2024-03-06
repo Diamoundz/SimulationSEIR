@@ -47,6 +47,10 @@ public class Main{
     
     private void Start(){
         Utils.Debug("Program start");
+
+        Grid grid = new Grid(100,100);
+        grid.FillGrid(10);
+
         VisualTest1();
     }
 
