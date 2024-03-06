@@ -10,9 +10,7 @@ public class Subject {
         I,
         R
     }
-
-    private Vector2 position;
-
+    
     private Status status;
     private float statusTime;
 
@@ -27,7 +25,4 @@ public class Subject {
         this.dR = Utils.NegExp(365);
     }
 
-    public Vector2 GetPosition(){
-        return this.position;
-    }
 }

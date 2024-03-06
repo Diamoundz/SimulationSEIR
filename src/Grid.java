@@ -1,33 +1,41 @@
 package com.main;
 
-import javax.swing.DebugGraphics;
 import com.main.*;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Grid {
     private static int xCellCount;
     private static int yCellCount;
-    private Subject[][] cells = new Subject[xCellCount][yCellCount];
+    private ArrayList<Subject>[][] cells;
 
     public Grid(int xSize, int ySize){
-        xCellCount = xSize;
-        yCellCount = ySize;
+        this.xCellCount = xSize;
+        this.yCellCount = ySize;
+        this.cells =  new ArrayList[xCellCount][yCellCount];
+        for(int x = 0; x < xCellCount; x++){
+            for(int y = 0; y < xCellCount; y++){
+                this.cells[x][y] = new ArrayList<Subject>();
+            }
+        }
     }
 
-    private boolean CheckPos(int xPos, int yPos)
+    private Vector2 ClampPos(Vector2 pos)
     {
-        return (xPos > 0 && xPos < xCellCount && yPos > 0 && yPos < yCellCount);
-    }
-
-    public Subject GetSubjectInPosition(Vector2 pos)
-    {
-        if (!CheckPos(pos.x, pos.y)){System.err.println("Position invalid"); return null;}
-        return cells[pos.x][pos.y];
-    }
-
-    public void SetSubjectInPosition(Subject subject, Vector2 pos)
-    {
-        if (!CheckPos(pos.x, pos.y)){System.err.println("Position invalid");}
-        cells[pos.x][pos.y] = subject;
+        Vector2 newPos = pos;
+        if(pos.x > xCellCount){
+            newPos.x = -(xCellCount - pos.x);
+        }
+        if(pos.x < 0){
+            newPos.x = xCellCount*pos.x;
+        }
+        if(pos.y > yCellCount){
+            newPos.y = -(yCellCount - pos.y);
+        }
+        if(pos.y < 0){
+            newPos.y = yCellCount*pos.y;
+        }
+        return newPos;
     }
 
     public Vector2 GetSize()
@@ -35,23 +43,12 @@ public class Grid {
         return new Vector2(xCellCount, yCellCount);
     }
 
-    public Vector2 GetPositionFromSubject(Subject subject)
-    {
-        Vector2 pos= new Vector2(-1,-1);
-        for(int x = 0; x < xCellCount; x++){
-            for(int y = 0; y< yCellCount; y++){
-                if(cells[x][y] == subject){
-                    pos = new Vector2(x, y);
-                }
-            }
+
+    public void FillGrid(int popCount){
+        for(int x = 0 ; x < popCount; x++ ){
+            Subject subject = new Subject();
+            cells[Utils.RandomRange(0, xCellCount)][Utils.RandomRange(0, yCellCount)].add(subject);
         }
-        return pos;
-    }
-    public void MoveSubjectToPosition(Subject subject, Vector2 targetPosition){
-        Vector2 initialPosition = subject.GetPosition();
-        Subject temp = GetSubjectInPosition(targetPosition);
-        cells[targetPosition.x][targetPosition.y] = subject;
-        cells[initialPosition.x][initialPosition.y] = temp;
-    }
+    }   
     
 }
