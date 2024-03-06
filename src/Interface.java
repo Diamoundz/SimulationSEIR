@@ -1,5 +1,6 @@
 package com.visual;
 import javax.swing.*;
+import java.awt.*;
 import com.main.*;
 
 public class Interface{

@@ -15,7 +15,7 @@ public class Grid {
 
     private boolean CheckPos(int xPos, int yPos)
     {
-        return (xPos > 0 && xPos < sizeX && yPos > 0 && yPos < sizeY);
+        return (xPos > 0 && xPos < xCellCount && yPos > 0 && yPos < yCellCount);
     }
 
     public Subject GetSubjectInPosition(Vector2 pos)

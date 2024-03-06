@@ -29,6 +29,7 @@ public class Main{
         mainProgram.isRunning = true;
         mainProgram.Awake();
         mainProgram.Start();
+
         while (mainProgram.isRunning) {
             mainProgram.Update();
             Utils.wait((int)clockRunSpeed);
@@ -41,12 +42,16 @@ public class Main{
     
     private void Start(){
         Utils.Debug("Program start");
-        visual = new Interface();
-        visual.CreateWindow(100,100, false);
-        
+        VisualTest1();
     }
     private void Update(){
 
+    }
+
+    private void VisualTest1()
+    {
+        visual = new Interface();
+        visual.CreateWindow(100,100, false);
     }
 
 
