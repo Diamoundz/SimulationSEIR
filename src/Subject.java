@@ -4,15 +4,30 @@ import com.main.*;
 
 public class Subject {
 
-    public Vector2 position;
+    public enum Status{
+        S,
+        E,
+        I,
+        R
+    }
 
-    public double dE;
-    public double dI;
-    public double dR;
+    private Vector2 position;
 
-    public Subject(double dE, double dI, double dR){
-        this.dE = dE;
-        this.dI = dI;
-        this.dR = dR;
+    private Status status;
+    private float statusTime;
+
+    private double dE;
+    private double dI;
+    private double dR;
+
+    public Subject(){
+        this.status = Status.S;
+        this.dE = Utils.NegExp(3);
+        this.dI = Utils.NegExp(7);
+        this.dR = Utils.NegExp(365);
+    }
+
+    public Vector2 GetPosition(){
+        return this.position;
     }
 }

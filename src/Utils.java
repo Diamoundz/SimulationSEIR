@@ -23,4 +23,7 @@ public class Utils {
     public static int GetRunTime(){
         return (int)((System.nanoTime()-Main.instance.startTime)/1000000);
     }
+    public static double NegExp(double inMean){
+        return -inMean*Math.log(1 - Main.instance.rand.nextFloat());
+    }
 }

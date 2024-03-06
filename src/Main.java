@@ -5,15 +5,17 @@
  */
 
 package com.main;
-import com.main.Utils;
+import com.main.*;
 
 public class Main{
 
+    // Logic constants
     public static Main instance;
     private static double clockRunSpeed = (1f/60f)*1000f;
     private boolean isRunning = false;
 
     public long startTime;
+    public MTRandom rand;
 
     public Main(){
         instance = this;
@@ -22,6 +24,8 @@ public class Main{
     public static void main(String[] args){
         Main mainProgram = new Main();
         mainProgram.startTime = System.nanoTime();
+
+        mainProgram.rand = new MTRandom(9876);
 
         mainProgram.isRunning = true;
         mainProgram.Awake();
@@ -39,6 +43,7 @@ public class Main{
     
     private void Start(){
         Utils.Debug("Program start");
+        Subject subj = new Subject();
     }
     private void Update(){
 
