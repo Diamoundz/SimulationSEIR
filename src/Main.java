@@ -6,6 +6,8 @@
 
 package com.main;
 import com.main.*;
+import com.main.Utils;
+import com.visual.*;
 
 public class Main{
 
@@ -16,6 +18,8 @@ public class Main{
 
     public long startTime;
     public MTRandom rand;
+
+    public Interface visual;
 
     public Main(){
         instance = this;
@@ -34,7 +38,6 @@ public class Main{
             mainProgram.Update();
             Utils.wait((int)clockRunSpeed);
         }
-        
     }
 
     private void Awake(){
@@ -43,7 +46,7 @@ public class Main{
     
     private void Start(){
         Utils.Debug("Program start");
-        Subject subj = new Subject();
+
     }
     private void Update(){
 

@@ -12,10 +12,31 @@ public class Grid {
         xCellCount = xSize;
         yCellCount = ySize;
     }
-    public Subject GetSubjectInPosition(Vector2 pos){
+
+    private boolean CheckPos(int xPos, int yPos)
+    {
+        return (xPos > 0 && xPos < xCellCount && yPos > 0 && yPos < yCellCount);
+    }
+
+    public Subject GetSubjectInPosition(Vector2 pos)
+    {
+        if (!CheckPos(pos.x, pos.y)){System.err.println("Position invalid"); return null;}
         return cells[pos.x][pos.y];
     }
-    public Vector2 GetPositionFromSubject(Subject subject){
+
+    public void SetSubjectInPosition(Subject subject, Vector2 pos)
+    {
+        if (!CheckPos(pos.x, pos.y)){System.err.println("Position invalid");}
+        cells[pos.x][pos.y] = subject;
+    }
+
+    public Vector2 GetSize()
+    {
+        return new Vector2(xCellCount, yCellCount);
+    }
+
+    public Vector2 GetPositionFromSubject(Subject subject)
+    {
         Vector2 pos= new Vector2(-1,-1);
         for(int x = 0; x < xCellCount; x++){
             for(int y = 0; y< yCellCount; y++){
