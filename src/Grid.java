@@ -48,7 +48,7 @@ public class Grid {
         return pos;
     }
     public void MoveSubjectToPosition(Subject subject, Vector2 targetPosition){
-        Vector2 initialPosition = subject.position;
+        Vector2 initialPosition = subject.GetPosition();
         Subject temp = GetSubjectInPosition(targetPosition);
         cells[targetPosition.x][targetPosition.y] = subject;
         cells[initialPosition.x][initialPosition.y] = temp;

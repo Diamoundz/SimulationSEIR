@@ -5,16 +5,19 @@
  */
 
 package com.main;
+import com.main.*;
 import com.main.Utils;
 import com.visual.*;
 
 public class Main{
 
+    // Logic constants
     public static Main instance;
     private static double clockRunSpeed = (1f/60f)*1000f;
     private boolean isRunning = false;
 
     public long startTime;
+    public MTRandom rand;
 
     public Interface visual;
 
@@ -25,6 +28,8 @@ public class Main{
     public static void main(String[] args){
         Main mainProgram = new Main();
         mainProgram.startTime = System.nanoTime();
+
+        mainProgram.rand = new MTRandom(9876);
 
         mainProgram.isRunning = true;
         mainProgram.Awake();
@@ -44,6 +49,7 @@ public class Main{
         Utils.Debug("Program start");
         VisualTest1();
     }
+
     private void Update(){
 
     }
@@ -51,7 +57,7 @@ public class Main{
     private void VisualTest1()
     {
         visual = new Interface();
-        visual.CreateWindow(100,100, false);
+        visual.CreateWindow(1500,600, false);
     }
 
 
