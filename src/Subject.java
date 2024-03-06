@@ -10,7 +10,7 @@ public class Subject {
         I,
         R
     }
-    
+
     private Status status;
     private float statusTime;
 
@@ -23,6 +23,11 @@ public class Subject {
         this.dE = Utils.NegExp(3);
         this.dI = Utils.NegExp(7);
         this.dR = Utils.NegExp(365);
+    }
+
+    public Status GetStatus()
+    {
+        return status;
     }
 
 }
