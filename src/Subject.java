@@ -27,10 +27,6 @@ public class Subject {
         this.dR = Utils.NegExp(365);
     }
 
-    public Vector2 GetPosition(){
-        return this.position;
-    }
-
     public Status GetStatus()
     {
         return status;
