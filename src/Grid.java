@@ -90,11 +90,12 @@ public class Grid {
 
 
     public void FillGrid(int popCount){
-        this.popCount = popCount;
         for(int x = 0 ; x < popCount; x++ ){
-            Subject subject = new Subject();
+
+            Vector2 pos = new Vector2(Utils.RandomRange(0, xCellCount),Utils.RandomRange(0, yCellCount));
+            Subject subject = new Subject(pos);
             population.add(subject);
-            cells[Utils.RandomRange(0, xCellCount)][Utils.RandomRange(0, yCellCount)].add(subject);
+            cells[pos.x][pos.y].add(subject);
         }
     }   
     

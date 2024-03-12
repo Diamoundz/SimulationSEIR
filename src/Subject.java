@@ -27,11 +27,12 @@ public class Subject {
     private int dI;
     private int dR;
 
-    public Subject(){
+    public Subject(Vector2 position){
         this.status = Status.S;
         this.dE = (int)Utils.NegExp((double)3);
         this.dI = (int)Utils.NegExp((double)7);
         this.dR = (int)Utils.NegExp((double)365);
+        this.position = position;
     }
 
     public void SetExposed(){
