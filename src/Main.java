@@ -68,7 +68,7 @@ public class Main{
             }
         }
         System.out.print("\n");
-        //VisualTest1();
+        VisualTest1();
     }
 
     private void Update(){
@@ -78,7 +78,10 @@ public class Main{
 
     private void VisualTest1()
     {
+        Grid grid = new Grid(20,20);
+        grid.FillGrid(1);
         visual = new Interface();
-        visual.CreateWindow(600, false);
+        visual.CreateWindow(900, false);
+        visual.DisplayGrid(grid);
     }
 }

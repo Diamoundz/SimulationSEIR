@@ -71,7 +71,7 @@ public class Interface
         // Set bounds for control panel and display panel
         controlPanel.setBounds(0, 0, controlPanelX, frame.getHeight());
         displayPanel.setBounds(controlPanelX, 0, frame.getHeight(), frame.getHeight());
-        MakeGrid(displayPanel, 10);
+        MakeGrid(displayPanel, 20);
     
         // Add panels to the content pane
         frame.getContentPane().add(controlPanel);
@@ -79,13 +79,14 @@ public class Interface
     
         // Refresh the frame to display changes
         frame.revalidate();
-        frame.setSize(height + controlPanelX, height + 39);
+        frame.setSize(height + controlPanelX, height + 37);
     }
 
     private void MakeGrid(JPanel panel, int size) {
         // Create a new JPanel for rendering
-        JPanel renderPanel = new JPanel();
-        renderPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Adding padding for aesthetic purpose
+        renderPanel = new JPanel();
+        int caseborder = 5;
+        renderPanel.setBorder(BorderFactory.createEmptyBorder(caseborder, caseborder, caseborder, caseborder)); // Adding padding for aesthetic purpose
         renderPanel.setLayout(new GridBagLayout()); // Use GridBagLayout for centering the square panel
         
         // Get the height of the provided panel
@@ -119,15 +120,31 @@ public class Interface
     
     public void DisplayGrid(Grid grid) {
         Vector2 size = grid.GetSize();
-
+    
+        // Ensure renderPanel exists
+        if (renderPanel == null) {
+            System.err.println("Error: renderPanel is null.");
+            return;
+        }
+    
+        // Ensure renderPanel has the correct number of components
+        int expectedComponents = size.x * size.y;
+        if (renderPanel.getComponentCount() != expectedComponents) {
+            System.err.println("Error: renderPanel has incorrect number of components.");
+            return;
+        }
+    
         for (int i = 0; i < size.y; i++) {
             for (int j = 0; j < size.x; j++) {
                 // Get the cell at position (i, j)
                 Vector2 pos = new Vector2(i, j);
                 Color cellColor = grid.GetCellColor(pos);
     
+                // Calculate the index of the cell in the renderPanel
+                int index = i * size.x + j;
+    
                 // Retrieve the corresponding JPanel within the renderPanel
-                JPanel cellPanel = (JPanel) renderPanel.getComponent(i * size.x + j);
+                JPanel cellPanel = (JPanel) renderPanel.getComponent(index);
     
                 // Set the background color of the cell panel based on the cell's content
                 cellPanel.setBackground(cellColor);
