@@ -1,7 +1,0 @@
-./src/Utils.java
-./src/Grid.java
-./src/MTRandom.java
-./src/Vector2.java
-./src/Subject.java
-./src/Interface.java
-./src/Main.java

@@ -6,8 +6,8 @@
 
 package com.main;
 import com.main.*;
-import com.main.Utils;
 import com.visual.*;
+import com.main.MersenneTwister;
 
 public class Main{
 
@@ -17,7 +17,7 @@ public class Main{
     private boolean isRunning = false;
 
     public long startTime;
-    public MTRandom rand;
+    public MersenneTwister rand;
 
     public Interface visual;
 
@@ -29,7 +29,7 @@ public class Main{
         Main mainProgram = new Main();
         mainProgram.startTime = System.nanoTime();
 
-        mainProgram.rand = new MTRandom(9876);
+        mainProgram.rand = new MersenneTwister(new int[]{0x123, 0x234, 0x345, 0x456});
 
         mainProgram.isRunning = true;
         mainProgram.Awake();

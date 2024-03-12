@@ -6,8 +6,8 @@ import java.util.Random;
 import java.util.Vector;
 
 public class Grid {
-    private static int xCellCount;
-    private static int yCellCount;
+    private int xCellCount;
+    private int yCellCount;
     private ArrayList<Subject>[][] cells;
 
     public Grid(int xSize, int ySize){
