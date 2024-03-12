@@ -24,6 +24,8 @@ public class Main{
     public Interface visual;
     public Scanner scanner = new Scanner(System.in);
 
+    private Grid grid;
+
     public Main(){
         instance = this;
     }
@@ -53,7 +55,7 @@ public class Main{
     private void Start(){
         Utils.Debug("Program start");
 
-        Grid grid = new Grid(10,10);
+        grid = new Grid(10,10);
         grid.FillGrid(1);
 
         for(int i = 0; i<grid.GetSize().x; i++){
@@ -73,7 +75,20 @@ public class Main{
 
     private void Update(){
         String userInput = scanner.nextLine();
-        System.out.println("test");
+        grid.NextStep();
+
+        for(int i = 0; i<grid.GetSize().x; i++){
+            System.out.print("\n");
+            for(int j = 0; j<grid.GetSize().y; j++){
+                if(grid.GetSubjectInPosition(new Vector2(i,j))!=null){
+                    System.out.print("x |");
+                }
+                else{
+                    System.out.print("o |");
+                }
+            }
+        }
+        System.out.print("\n");
     }
 
     private void VisualTest1()
