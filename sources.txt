@@ -1,5 +1,6 @@
 C:\Users\HP\Documents\Programming\SimulationSEIR\src\Grid.java
 C:\Users\HP\Documents\Programming\SimulationSEIR\src\Interface.java
+C:\Users\HP\Documents\Programming\SimulationSEIR\src\Keyboard.java
 C:\Users\HP\Documents\Programming\SimulationSEIR\src\Main.java
 C:\Users\HP\Documents\Programming\SimulationSEIR\src\MersenneTwister.java
 C:\Users\HP\Documents\Programming\SimulationSEIR\src\Subject.java

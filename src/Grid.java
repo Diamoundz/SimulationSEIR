@@ -4,6 +4,7 @@ import com.main.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Vector;
+import java.awt.*;
 
 public class Grid {
     private int xCellCount;
@@ -23,7 +24,12 @@ public class Grid {
     }
 
     public Subject GetSubjectInPosition(Vector2 position){
-        return (cells[position.x][position.y]).get(0);
+        if(cells[position.x][position.y].size()>0){
+            return (cells[position.x][position.y]).get(0);
+        }
+        else{
+            return null;
+        }
     }
 
     private Vector2 ClampPos(Vector2 pos)
@@ -47,6 +53,22 @@ public class Grid {
     public Vector2 GetSize()
     {
         return new Vector2(xCellCount, yCellCount);
+    }
+
+    public Color GetCellColor(Vector2 coord){
+        double r = 0,g = 0,b = 0,a = 0;
+        int max = cells[coord.x][coord.y].size();
+        for(int i = 0;i<max;i++){
+            r += cells[coord.x][coord.y].get(i).GetColor().getRed()/max;
+            g += cells[coord.x][coord.y].get(i).GetColor().getGreen()/max;
+            b += cells[coord.x][coord.y].get(i).GetColor().getBlue()/max;
+            a += cells[coord.x][coord.y].get(i).GetColor().getAlpha()/max;
+        }
+        return new Color((int)r,(int)g,(int)b,(int)a);
+    }
+
+    public void NextStep(){
+        
     }
 
 
