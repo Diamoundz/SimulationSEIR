@@ -117,9 +117,21 @@ public class Interface
         panel.add(renderPanel, gbc);
     }
     
-    public void DisplayGrid(Grid grid) 
-    {
-        
-    }
+    public void DisplayGrid(Grid grid) {
+        Vector2 size = grid.GetSize();
+
+        for (int i = 0; i < size.y; i++) {
+            for (int j = 0; j < size.x; j++) {
+                // Get the cell at position (i, j)
+                Vector2 pos = new Vector2(i, j);
+                Color cellColor = grid.GetCellColor(pos);
     
+                // Retrieve the corresponding JPanel within the renderPanel
+                JPanel cellPanel = (JPanel) renderPanel.getComponent(i * size.x + j);
+    
+                // Set the background color of the cell panel based on the cell's content
+                cellPanel.setBackground(cellColor);
+            }
+        }
+    }
 }
