@@ -52,6 +52,11 @@ public class Grid {
         return newPos;
     }
 
+    public void MoveSubject(Subject subj,Vector2 pos1, Vector2 pos2){
+        cells[pos1.x][pos1.y].remove(subj);
+        cells[pos2.x][pos2.y].add(subj);
+    }
+
     public Vector2 GetSize()
     {
         return new Vector2(xCellCount, yCellCount);
@@ -84,6 +89,8 @@ public class Grid {
         for(int i = 0; i<population.size();i++){
             int randIndex = Utils.RandomRange(0, temp.size());
             Subject subj = temp.get(randIndex);
+            Vector2 pos = subj.GetPosition();
+            MoveSubject(subj,pos,new Vector2(Utils.RandomRange(0, xCellCount),Utils.RandomRange(0, yCellCount)));
             temp.remove(subj);
         }
     }
