@@ -10,6 +10,7 @@ public class Grid {
     private int yCellCount;
     private ArrayList<Subject>[][] cells;
 
+    @SuppressWarnings("unchecked")
     public Grid(int xSize, int ySize){
         this.xCellCount = xSize;
         this.yCellCount = ySize;

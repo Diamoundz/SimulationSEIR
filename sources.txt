@@ -1,7 +1,7 @@
-./src/Utils.java
-./src/Subject.java
-./src/Interface.java
-./src/Vector2.java
-./src/Grid.java
-./src/MersenneTwister.java
-./src/Main.java
+C:\Users\HP\Documents\Programming\SimulationSEIR\src\Grid.java
+C:\Users\HP\Documents\Programming\SimulationSEIR\src\Interface.java
+C:\Users\HP\Documents\Programming\SimulationSEIR\src\Main.java
+C:\Users\HP\Documents\Programming\SimulationSEIR\src\MersenneTwister.java
+C:\Users\HP\Documents\Programming\SimulationSEIR\src\Subject.java
+C:\Users\HP\Documents\Programming\SimulationSEIR\src\Utils.java
+C:\Users\HP\Documents\Programming\SimulationSEIR\src\Vector2.java
