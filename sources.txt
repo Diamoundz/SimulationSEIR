@@ -2,6 +2,6 @@
 ./src/Subject.java
 ./src/Interface.java
 ./src/Vector2.java
-./src/MTRandom.java
 ./src/Grid.java
+./src/MersenneTwister.java
 ./src/Main.java
