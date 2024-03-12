@@ -11,6 +11,8 @@ public class Grid {
     private int yCellCount;
     private ArrayList<Subject>[][] cells;
 
+    private ArrayList<Subject> population = new ArrayList<Subject>();
+
     @SuppressWarnings("unchecked")
     public Grid(int xSize, int ySize){
         this.xCellCount = xSize;
@@ -56,25 +58,42 @@ public class Grid {
     }
 
     public Color GetCellColor(Vector2 coord){
-        double r = 0,g = 0,b = 0,a = 0;
+
         int max = cells[coord.x][coord.y].size();
-        for(int i = 0;i<max;i++){
-            r += cells[coord.x][coord.y].get(i).GetColor().getRed()/max;
-            g += cells[coord.x][coord.y].get(i).GetColor().getGreen()/max;
-            b += cells[coord.x][coord.y].get(i).GetColor().getBlue()/max;
-            a += cells[coord.x][coord.y].get(i).GetColor().getAlpha()/max;
+
+        if(max >0){
+            double r = 0,g = 0,b = 0,a = 0;
+
+            for(int i = 0;i<max;i++){
+                r += cells[coord.x][coord.y].get(i).GetColor().getRed()/max;
+                g += cells[coord.x][coord.y].get(i).GetColor().getGreen()/max;
+                b += cells[coord.x][coord.y].get(i).GetColor().getBlue()/max;
+                a += cells[coord.x][coord.y].get(i).GetColor().getAlpha()/max;
+            }
+            return new Color((int)r,(int)g,(int)b,(int)a);
         }
-        return new Color((int)r,(int)g,(int)b,(int)a);
+        else{
+            return new Color(0,0,0,255);
+        }
+
     }
 
     public void NextStep(){
-        
+        ArrayList<Subject> temp = new ArrayList<Subject>();
+        temp.addAll(population);
+        for(int i = 0; i<population.size();i++){
+            int randIndex = Utils.RandomRange(0, temp.size());
+            Subject subj = temp.get(randIndex);
+            temp.remove(subj);
+        }
     }
 
 
     public void FillGrid(int popCount){
+        this.popCount = popCount;
         for(int x = 0 ; x < popCount; x++ ){
             Subject subject = new Subject();
+            population.add(subject);
             cells[Utils.RandomRange(0, xCellCount)][Utils.RandomRange(0, yCellCount)].add(subject);
         }
     }   
