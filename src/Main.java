@@ -61,7 +61,7 @@ public class Main{
     private void VisualTest1()
     {
         visual = new Interface();
-        visual.CreateWindow(1500,600, false);
+        visual.CreateWindow(600, false);
     }
 
 

@@ -3,6 +3,7 @@ package com.visual;
 import com.main.*;
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 public class Interface 
 {
@@ -12,12 +13,19 @@ public class Interface
 
     private JPanel controlPanel;
     private JPanel displayPanel;
+    private JPanel renderPanel;
 
-    public void CreateWindow(int width, int height, boolean isFullscreen) 
+    private int width;
+    public int height;
+
+    public void CreateWindow(int height, boolean isFullscreen)
     {
+        this.height = height;
+        this.width = height + controlPanelX;
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double screenWidth = screenSize.getWidth();
         frame = new JFrame();
+        
         if (isFullscreen) 
         {
             frame.setSize(screenSize);
@@ -26,9 +34,12 @@ public class Interface
         {
             if (width + controlPanelX < screenWidth)
             {
-                frame.setSize(width + controlPanelX, height);
+                frame.setSize(width, height);
             } 
         }
+        // Make the frame not resizable
+        frame.setResizable(false);
+
         frame.setVisible(true);
         isActive = true;
 
@@ -48,21 +59,19 @@ public class Interface
         JPanel displayPanel = new JPanel();
     
         // Set background colors
-        controlPanel.setBackground(Color.WHITE);
+        controlPanel.setBackground(Color.DARK_GRAY);
         displayPanel.setBackground(Color.BLACK);
     
         // Calculate width for control panel and display panel
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double screenWidth = screenSize.getWidth();
-        int displayPanelWidth = (int) screenWidth - controlPanelX;
     
         // Set layout for the frame's content pane
         frame.getContentPane().setLayout(null); // Set layout to null for direct control
     
         // Set bounds for control panel and display panel
         controlPanel.setBounds(0, 0, controlPanelX, frame.getHeight());
-        displayPanel.setBounds(controlPanelX, 0, displayPanelWidth, frame.getHeight());
-        makeGrid(displayPanel, 10, 10);
+        displayPanel.setBounds(controlPanelX, 0, frame.getHeight(), frame.getHeight());
+        MakeGrid(displayPanel, 10);
     
         // Add panels to the content pane
         frame.getContentPane().add(controlPanel);
@@ -70,94 +79,47 @@ public class Interface
     
         // Refresh the frame to display changes
         frame.revalidate();
+        frame.setSize(height + controlPanelX, height + 39);
     }
 
-    private void makeGrid(JPanel panel, int rows, int cols) {
-        // Calculate the size of each button based on the panel size and number of rows/columns
-        int panelWidth = panel.getWidth();
+    private void MakeGrid(JPanel panel, int size) {
+        // Create a new JPanel for rendering
+        JPanel renderPanel = new JPanel();
+        renderPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Adding padding for aesthetic purpose
+        renderPanel.setLayout(new GridBagLayout()); // Use GridBagLayout for centering the square panel
+        
+        // Get the height of the provided panel
         int panelHeight = panel.getHeight();
-        int buttonWidth = panelWidth / cols;
-        int buttonHeight = panelHeight / rows;
-    
-        // Set layout to a GridLayout with the specified number of rows and columns
-        panel.setLayout(new GridLayout(rows, cols));
-    
-        // Add buttons to represent the grid cells
-        for (int i = 0; i < rows * cols; i++) {
-            JButton button = new JButton(Integer.toString(i + 1)); // Example: Cell numbers
-            button.setPreferredSize(new Dimension(buttonWidth, buttonHeight)); // Set button size
-            panel.add(button);
+        
+        // Set the size of the square panel
+        Dimension squareDimension = new Dimension(panelHeight, panelHeight);
+        renderPanel.setPreferredSize(squareDimension);
+        
+        // Create cells for the grid and add them to the renderPanel
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                JPanel cell = new JPanel();
+                cell.setPreferredSize(new Dimension(squareDimension.width / size, squareDimension.height / size));
+                cell.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Adding border for grid appearance
+                renderPanel.add(cell, new GridBagConstraints(j, i, 1, 1, 1.0, 1.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 0), 0, 0));
+            }
         }
+        
+        // Center the square panel
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = GridBagConstraints.CENTER; // Center horizontally
+        gbc.gridy = GridBagConstraints.CENTER; // Center vertically
+        
+        // Add the square panel to the renderPanel
+        panel.setLayout(new GridBagLayout());
+        panel.add(renderPanel, gbc);
     }
     
     public void DisplayGrid(Grid grid) 
     {
-        if (frame == null || !isActive) 
-        {
-            System.err.println("Error: Window not created yet.");
-            return;
-        }
-    
-        // Clear existing components from displayPanel
-        displayPanel.removeAll();
-    
-        // Get grid size
-        Vector2 size = grid.GetSize();
-        int maxX = size.x;
-        int maxY = size.y;
-    
-        // Calculate cell size based on displayPanel size and grid size
-        int cellWidth = displayPanel.getWidth() / maxX;
-        int cellHeight = displayPanel.getHeight() / maxY;
-    
-        // Create components for grid elements
-        for (int y = 0; y < maxY; y++) 
-        {
-            for (int x = 0; x < maxX; x++) 
-            {
-                // Assuming you have a method to get grid element at position (x, y)
-                Subject subject = grid.GetSubjectInPosition(new Vector2(x, y));
-                
-                // Determine color based on subject status
-                Color color;
-                switch (subject.GetStatus()) 
-                {
-                    case S:
-                        color = Color.BLUE; // Susceptible - Blue
-                        break;
-                    case E:
-                        color = Color.YELLOW; // Exposed - Yellow
-                        break;
-                    case I:
-                        color = Color.RED; // Infected - Red
-                        break;
-                    case R:
-                        color = Color.GREEN; // Recovered - Green
-                        break;
-                    default:
-                        color = Color.WHITE; // Default color
-                        break;
-                }
-    
-                // Create and add a colored rectangle representing the subject state
-                JPanel cellPanel = new JPanel() 
-                {
-                    @Override
-                    protected void paintComponent(Graphics g) 
-                    {
-                        super.paintComponent(g);
-                        g.setColor(color);
-                        g.fillRect(0, 0, getWidth(), getHeight());
-                    }
-                };
-                cellPanel.setBounds(x * cellWidth, y * cellHeight, cellWidth, cellHeight);
-                displayPanel.add(cellPanel);
-            }
-        }
-    
-        // Refresh the displayPanel
-        displayPanel.revalidate();
-        displayPanel.repaint();
+        
     }
     
 }

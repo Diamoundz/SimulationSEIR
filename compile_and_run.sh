@@ -4,7 +4,7 @@
 find ./src/ -type f -name "*.java" > sources.txt
 
 # Step 2: Compile the Java files using javac
-javac -d ./build/ @sources.txt
+javac -d ./build/ -Xlint:unchecked @sources.txt
 
 # Step 3: Run the compiled program using java
 java -cp ./build/ com.main.Main
