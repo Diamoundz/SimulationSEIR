@@ -18,6 +18,8 @@ public class Subject {
         R
     }
 
+    private Vector2 position;
+
     private Status status;
 
     private int statusTime;
@@ -76,6 +78,13 @@ public class Subject {
     private void CycleNextState(){
         statusTime = 0;
         status =Status.values()[(status.ordinal()+1)%4];
+    }
+
+    public void SetPosition(Vector2 pos){
+        position = pos;
+    }
+    public Vector2 GetPosition(){
+        return position;
     }
 
 }
