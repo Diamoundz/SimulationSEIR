@@ -3,6 +3,7 @@ package com.main;
 import com.main.*;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Vector;
 
 public class Grid {
     private static int xCellCount;
@@ -18,6 +19,10 @@ public class Grid {
                 this.cells[x][y] = new ArrayList<Subject>();
             }
         }
+    }
+
+    public Subject GetSubjectInPosition(Vector2 position){
+        return (cells[position.x][position.y]).get(0);
     }
 
     private Vector2 ClampPos(Vector2 pos)
