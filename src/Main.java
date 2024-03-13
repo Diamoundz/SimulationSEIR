@@ -53,15 +53,10 @@ public class Main{
     
     private void Start(){
         Utils.Debug("Program start");
-
-        grid = new Grid(10,10);
-        grid.FillGrid(1);
-
         
         Main.instance.gui =new Interface();
-        Main.instance.gui.CreateWindow(900, false);
+        Main.instance.gui.CreateWindow();
 
-        grid.NextStep();
         Main.instance.gui.DisplayGrid(grid);
     }
 
