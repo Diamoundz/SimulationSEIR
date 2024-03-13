@@ -18,7 +18,9 @@ public class Main{
     public static Main instance;
     private static double clockRunSpeed = (1f/60f)*1000f;
     public static boolean USE_GUI = true;
+    public static boolean WAIT_FOR_USER_INPUT = false;
 
+    public Utils.DebugType debugType = Utils.DebugType.stepInfo;
     private boolean isRunning = false;
 
     public long startTime;
@@ -49,33 +51,43 @@ public class Main{
             mainProgram.Update();
             Utils.wait((int)clockRunSpeed);
         }
+        Utils.Debug("test");
+        System.exit(0);
     }
 
     private void Awake(){
-        Utils.Debug("Program awake");
+        Utils.Debug("Program awake",Utils.DebugType.timeStamps);
     }
     
     private void Start(){
-        Utils.Debug("Program start");
+        Utils.Debug("Program start",Utils.DebugType.timeStamps);
 
         grid = new Grid(50,50);
         grid.FillGrid(1);
 
         if(USE_GUI){
-            gui =new Interface();
-            gui.CreateWindow(900, false);
-            Main.instance.gui.DisplayGrid(grid);
+            gui = new Interface();
+            gui.CreateWindow(900);
+            gui.DisplayGrid(grid);
         }
     }
 
     private void Update(){
-        String userInput = scanner.nextLine();
-        Utils.Debug("Current step initialized : " + grid.GetStepCount());
+        if(WAIT_FOR_USER_INPUT){
+            String userInput = scanner.nextLine();
+            Utils.Debug("Current step initialized : " + grid.GetStepCount(),Utils.DebugType.timeStamps);
+        }
+
         grid.NextStep();
         if(USE_GUI){
-            Main.instance.gui.DisplayGrid(grid);
+            if(gui.IsActive()){
+                gui.DisplayGrid(grid);
+            }
+            else{
+                isRunning = false;
+            }
         }
-        Utils.Debug("Current step completed");
+        Utils.Debug("Current step completed",Utils.DebugType.timeStamps);
     }
 
 }

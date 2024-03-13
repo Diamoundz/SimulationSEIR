@@ -1,6 +1,8 @@
 package com.main;
 
 import com.main.*;
+import com.main.Utils.DebugType;
+
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Vector;
@@ -57,6 +59,7 @@ public class Grid {
     public void MoveSubject(Subject subj,Vector2 pos1, Vector2 pos2){
         cells[pos1.x][pos1.y].remove(subj);
         cells[pos2.x][pos2.y].add(subj);
+        subj.SetPosition(pos2);
     }
 
     public Vector2 GetSize()
