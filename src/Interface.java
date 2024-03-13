@@ -37,7 +37,7 @@ public class Interface
     }
 
     public boolean IsActive(){
-        return this.frame != null;
+        return this.frame != null && frame.isVisible();
     }
 
     private void SplitScreen() 

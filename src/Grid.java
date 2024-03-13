@@ -29,15 +29,7 @@ public class Grid {
         }
     }
 
-    public Subject GetSubjectInPosition(Vector2 position){
-        if(cells[position.x][position.y].size()>0){
-            return (cells[position.x][position.y]).get(0);
-        }
-        else{
-            return null;
-        }
-    }
-
+    
     private Vector2 ClampPos(Vector2 pos)
     {
         Vector2 newPos = pos;
@@ -55,6 +47,33 @@ public class Grid {
         }
         return newPos;
     }
+
+    private boolean GetExposed(Vector2 pos){
+        for(int i = -1; i<2 ; i++){
+            for(int j = -1; j<2 ; j++){
+                Vector2 newPos = new Vector2(pos.x+i, pos.y + j);
+                if(newPos.x>=0 && newPos.x<xCellCount 
+                && newPos.y>=0 && newPos.y<yCellCount){
+                    for(int k = 0; k<cells[newPos.x][newPos.y].size(); k++){
+                        if(cells[newPos.x][newPos.y].get(k).GetStatus() == Subject.Status.I){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public Subject GetSubjectInPosition(Vector2 position){
+        if(cells[position.x][position.y].size()>0){
+            return (cells[position.x][position.y]).get(0);
+        }
+        else{
+            return null;
+        }
+    }
+
 
     public void MoveSubject(Subject subj,Vector2 pos1, Vector2 pos2){
         cells[pos1.x][pos1.y].remove(subj);
@@ -101,7 +120,14 @@ public class Grid {
             int randIndex = Utils.RandomRange(0, temp.size());
             Subject subj = temp.get(randIndex);
             Vector2 pos = subj.GetPosition();
-            MoveSubject(subj,pos,new Vector2(Utils.RandomRange(0, xCellCount),Utils.RandomRange(0, yCellCount)));
+            Vector2 newPos = new Vector2(Utils.RandomRange(0, xCellCount),Utils.RandomRange(0, yCellCount));
+            MoveSubject(subj,pos,newPos);
+            subj.NextTimeStep();
+            if(subj.GetStatus() == Subject.Status.S){
+                if(GetExposed(newPos)){
+                    subj.SetExposed();
+                }
+            }
             temp.remove(subj);
         }
     }

@@ -18,9 +18,9 @@ public class Main{
     public static Main instance;
     private static double clockRunSpeed = (1f/60f)*1000f;
     public static boolean USE_GUI = true;
-    public static boolean WAIT_FOR_USER_INPUT = false;
+    public static boolean WAIT_FOR_USER_INPUT = true;
 
-    public Utils.DebugType debugType = Utils.DebugType.stepInfo;
+    public Utils.DebugType debugType = Utils.DebugType.timeStamps;
     private boolean isRunning = false;
 
     public long startTime;
@@ -51,7 +51,7 @@ public class Main{
             mainProgram.Update();
             Utils.wait((int)clockRunSpeed);
         }
-        Utils.Debug("test");
+        Utils.Debug("Program ended",Utils.DebugType.timeStamps);
         System.exit(0);
     }
 
@@ -63,7 +63,7 @@ public class Main{
         Utils.Debug("Program start",Utils.DebugType.timeStamps);
 
         grid = new Grid(50,50);
-        grid.FillGrid(1);
+        grid.FillGrid(100);
 
         if(USE_GUI){
             gui = new Interface();

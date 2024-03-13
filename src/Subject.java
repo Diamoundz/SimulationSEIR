@@ -33,6 +33,7 @@ public class Subject {
         this.dI = (int)Utils.NegExp((double)7);
         this.dR = (int)Utils.NegExp((double)365);
         this.position = position;
+        this.SetExposed();
     }
 
     public void SetExposed(){
