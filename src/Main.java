@@ -17,6 +17,8 @@ public class Main{
 
     public static Main instance;
     private static double clockRunSpeed = (1f/60f)*1000f;
+    public static boolean USE_GUI = true;
+
     private boolean isRunning = false;
 
     public long startTime;
@@ -24,6 +26,8 @@ public class Main{
     public Scanner scanner = new Scanner(System.in);
     public Interface gui;
     public Grid grid;
+
+
 
     public Main(){
         instance = this;
@@ -54,21 +58,24 @@ public class Main{
     private void Start(){
         Utils.Debug("Program start");
 
-        grid = new Grid(200,200);
+        grid = new Grid(50,50);
         grid.FillGrid(1);
 
-        
-        Main.instance.gui =new Interface();
-        Main.instance.gui.CreateWindow(900, false);
-
-        grid.NextStep();
-        Main.instance.gui.DisplayGrid(grid);
+        if(USE_GUI){
+            gui =new Interface();
+            gui.CreateWindow(900, false);
+            Main.instance.gui.DisplayGrid(grid);
+        }
     }
 
     private void Update(){
         String userInput = scanner.nextLine();
+        Utils.Debug("Current step initialized : " + grid.GetStepCount());
         grid.NextStep();
-        Main.instance.gui.DisplayGrid(grid);
+        if(USE_GUI){
+            Main.instance.gui.DisplayGrid(grid);
+        }
+        Utils.Debug("Current step completed");
     }
 
 }

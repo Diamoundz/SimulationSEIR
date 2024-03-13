@@ -13,6 +13,8 @@ public class Grid {
 
     private ArrayList<Subject> population = new ArrayList<Subject>();
 
+    private int stepCount;
+
     @SuppressWarnings("unchecked")
     public Grid(int xSize, int ySize){
         this.xCellCount = xSize;
@@ -62,6 +64,10 @@ public class Grid {
         return new Vector2(xCellCount, yCellCount);
     }
 
+    public int GetStepCount(){
+        return stepCount;
+    }
+
     public Color GetCellColor(Vector2 coord){
 
         int max = cells[coord.x][coord.y].size();
@@ -84,6 +90,8 @@ public class Grid {
     }
 
     public void NextStep(){
+
+        stepCount ++;
         ArrayList<Subject> temp = new ArrayList<Subject>();
         temp.addAll(population);
         for(int i = 0; i<population.size();i++){
