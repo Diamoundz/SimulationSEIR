@@ -18,25 +18,15 @@ public class Interface
     private int width;
     public int height;
 
-    public void CreateWindow(int height, boolean isFullscreen)
+    public void CreateWindow(int height)
     {
         this.height = height;
         this.width = height + controlPanelX;
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double screenWidth = screenSize.getWidth();
         frame = new JFrame();
         
-        if (isFullscreen) 
-        {
-            frame.setSize(screenSize);
-        } 
-        else 
-        {
-            if (width + controlPanelX < screenWidth)
-            {
-                frame.setSize(width, height);
-            } 
-        }
+        frame.setSize(width, height);
+
         // Make the frame not resizable
         frame.setResizable(false);
 
@@ -44,6 +34,10 @@ public class Interface
         isActive = true;
 
         SplitScreen();
+    }
+
+    public bool IsActive(){
+        return this.frame != null;
     }
 
     private void SplitScreen() 

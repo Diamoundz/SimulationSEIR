@@ -54,7 +54,7 @@ public class Main{
     private void Start(){
         Utils.Debug("Program start");
 
-        grid = new Grid(200,200);
+        grid = new Grid(10,10);
         grid.FillGrid(1);
 
         
