@@ -72,6 +72,7 @@ public class Interface
         controlPanel.setBounds(0, 0, controlPanelX, frame.getHeight());
         displayPanel.setBounds(controlPanelX, 0, frame.getHeight(), frame.getHeight());
         MakeGrid(displayPanel, 20);
+        renderPanel.setBackground(Color.DARK_GRAY);
     
         // Add panels to the content pane
         frame.getContentPane().add(controlPanel);
@@ -101,7 +102,7 @@ public class Interface
             for (int j = 0; j < size; j++) {
                 JPanel cell = new JPanel();
                 cell.setPreferredSize(new Dimension(squareDimension.width / size, squareDimension.height / size));
-                cell.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Adding border for grid appearance
+                cell.setBorder(BorderFactory.createLineBorder(new Color(64, 64, 64))); // Dark grey color for grid lines
                 renderPanel.add(cell, new GridBagConstraints(j, i, 1, 1, 1.0, 1.0,
                                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                                 new Insets(0, 0, 0, 0), 0, 0));
@@ -116,7 +117,7 @@ public class Interface
         // Add the square panel to the renderPanel
         panel.setLayout(new GridBagLayout());
         panel.add(renderPanel, gbc);
-    }
+    }    
     
     public void DisplayGrid(Grid grid) {
         Vector2 size = grid.GetSize();
