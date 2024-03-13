@@ -21,10 +21,9 @@ public class Main{
 
     public long startTime;
     public MersenneTwister rand;
-    public Interface visual;
     public Scanner scanner = new Scanner(System.in);
-
-    private Grid grid;
+    public Interface gui;
+    public Grid grid;
 
     public Main(){
         instance = this;
@@ -55,48 +54,21 @@ public class Main{
     private void Start(){
         Utils.Debug("Program start");
 
-        grid = new Grid(10,10);
+        grid = new Grid(200,200);
         grid.FillGrid(1);
 
-        for(int i = 0; i<grid.GetSize().x; i++){
-            System.out.print("\n");
-            for(int j = 0; j<grid.GetSize().y; j++){
-                if(grid.GetSubjectInPosition(new Vector2(i,j))!=null){
-                    System.out.print("x |");
-                }
-                else{
-                    System.out.print("o |");
-                }
-            }
-        }
-        System.out.print("\n");
-        VisualTest1();
+        
+        Main.instance.gui =new Interface();
+        Main.instance.gui.CreateWindow(900, false);
+
+        grid.NextStep();
+        Main.instance.gui.DisplayGrid(grid);
     }
 
     private void Update(){
         String userInput = scanner.nextLine();
         grid.NextStep();
-
-        for(int i = 0; i<grid.GetSize().x; i++){
-            System.out.print("\n");
-            for(int j = 0; j<grid.GetSize().y; j++){
-                if(grid.GetSubjectInPosition(new Vector2(i,j))!=null){
-                    System.out.print("x |");
-                }
-                else{
-                    System.out.print("o |");
-                }
-            }
-        }
-        System.out.print("\n");
+        Main.instance.gui.DisplayGrid(grid);
     }
 
-    private void VisualTest1()
-    {
-        Grid grid = new Grid(20,20);
-        grid.FillGrid(1);
-        visual = new Interface();
-        visual.CreateWindow(900, false);
-        visual.DisplayGrid(grid);
-    }
 }
