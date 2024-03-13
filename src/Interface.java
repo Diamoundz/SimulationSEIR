@@ -71,7 +71,7 @@ public class Interface
         // Set bounds for control panel and display panel
         controlPanel.setBounds(0, 0, controlPanelX, frame.getHeight());
         displayPanel.setBounds(controlPanelX, 0, frame.getHeight(), frame.getHeight());
-        MakeGrid(displayPanel, 20);
+        MakeGrid(displayPanel, Main.instance.grid.GetSize().x);
         renderPanel.setBackground(Color.DARK_GRAY);
     
         // Add panels to the content pane
