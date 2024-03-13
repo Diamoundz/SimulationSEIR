@@ -1,6 +1,8 @@
 package com.main;
 
 import com.main.*;
+import com.main.Utils.DebugType;
+
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Vector;
@@ -12,6 +14,8 @@ public class Grid {
     private ArrayList<Subject>[][] cells;
 
     private ArrayList<Subject> population = new ArrayList<Subject>();
+
+    private int stepCount;
 
     @SuppressWarnings("unchecked")
     public Grid(int xSize, int ySize){
@@ -55,11 +59,16 @@ public class Grid {
     public void MoveSubject(Subject subj,Vector2 pos1, Vector2 pos2){
         cells[pos1.x][pos1.y].remove(subj);
         cells[pos2.x][pos2.y].add(subj);
+        subj.SetPosition(pos2);
     }
 
     public Vector2 GetSize()
     {
         return new Vector2(xCellCount, yCellCount);
+    }
+
+    public int GetStepCount(){
+        return stepCount;
     }
 
     public Color GetCellColor(Vector2 coord){
@@ -84,6 +93,8 @@ public class Grid {
     }
 
     public void NextStep(){
+
+        stepCount ++;
         ArrayList<Subject> temp = new ArrayList<Subject>();
         temp.addAll(population);
         for(int i = 0; i<population.size();i++){

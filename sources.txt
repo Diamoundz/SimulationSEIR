@@ -1,9 +1,0 @@
-./src/Utils.java
-./src/MersenneTwister.java
-./src/Grid.java
-./src/PreLoadScreen.java
-./src/Keyboard.java
-./src/Vector2.java
-./src/Subject.java
-./src/Interface.java
-./src/Main.java
