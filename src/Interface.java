@@ -46,7 +46,7 @@ public class Interface
         SplitScreen();
     }
 
-    public void SplitScreen() 
+    private void SplitScreen() 
     {
         if (!isActive)
         {
