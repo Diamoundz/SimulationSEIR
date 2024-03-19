@@ -33,7 +33,6 @@ public class Subject {
         this.dI = (int)Utils.NegExp((double)7);
         this.dR = (int)Utils.NegExp((double)365);
         this.position = position;
-        this.SetExposed();
     }
 
     public void SetExposed(){
@@ -41,6 +40,11 @@ public class Subject {
             this.status = Status.E;
             statusTime = 0;
         }
+    }
+
+    public void SetStatus(Status status){
+        statusTime = 0;
+        this.status =status;
     }
 
     public void NextTimeStep(){

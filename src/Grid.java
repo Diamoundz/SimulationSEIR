@@ -133,13 +133,20 @@ public class Grid {
     }
 
 
-    public void FillGrid(int popCount){
+    public void FillGrid(int popCount, int infectedCount){
+        int remainingInfected = infectedCount;
         for(int x = 0 ; x < popCount; x++ ){
 
             Vector2 pos = new Vector2(Utils.RandomRange(0, xCellCount),Utils.RandomRange(0, yCellCount));
             Subject subject = new Subject(pos);
             population.add(subject);
             cells[pos.x][pos.y].add(subject);
+
+            if(remainingInfected>0){
+                subject.SetStatus(Subject.Status.I);
+                remainingInfected--;
+            }
+
         }
     }   
     

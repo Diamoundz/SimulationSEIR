@@ -62,8 +62,8 @@ public class Main{
     private void Start(){
         Utils.Debug("Program start");
         
-        Main.instance.grid = new Grid(50,50);
-        Main.instance.grid.FillGrid(20000);
+        Main.instance.grid = new Grid(100,100);
+        Main.instance.grid.FillGrid(20000,20);
         
         if(USE_GUI){
             Main.instance.gui = new Interface();
