@@ -40,10 +40,11 @@ public class Interface
         // Make the frame not resizable
         frame.setResizable(false);
 
-        frame.setVisible(true);
         isActive = true;
 
         SplitScreen();
+
+        frame.setVisible(true);
     }
 
     private void OnInit() {

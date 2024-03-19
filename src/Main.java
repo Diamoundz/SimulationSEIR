@@ -20,7 +20,7 @@ public class Main{
     public static boolean USE_GUI = true;
     public static boolean WAIT_FOR_USER_INPUT = false;
 
-    public Utils.DebugType debugType = Utils.DebugType.timeStamps;
+    public Utils.DebugType debugType = null;
     private boolean isRunning = false;
 
     public long startTime;
@@ -62,7 +62,7 @@ public class Main{
     private void Start(){
         Utils.Debug("Program start");
         
-        Main.instance.grid = new Grid(50,50);
+        Main.instance.grid = new Grid(100,100);
         Main.instance.grid.FillGrid(20000);
         
         if(USE_GUI){
