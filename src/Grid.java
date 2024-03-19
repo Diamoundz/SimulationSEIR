@@ -4,6 +4,7 @@ import com.main.*;
 import com.main.Utils.DebugType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.Vector;
 import java.awt.*;
@@ -15,7 +16,9 @@ public class Grid {
 
     private ArrayList<Subject> population = new ArrayList<Subject>();
 
-    private int stepCount;
+    private int stepCount = 0;
+    private int initialPopulationCount = 0;
+    private int deadPopulation = 0;
 
     @SuppressWarnings("unchecked")
     public Grid(int xSize, int ySize){
@@ -79,6 +82,13 @@ public class Grid {
         return infectedCount;
     }
 
+    private Vector2 GetRandomAdjacentPosition(Vector2 pos){
+        return ClampPos(pos.add(new Vector2(Utils.RandomRange(-1, 1),Utils.RandomRange(-1, 1))));
+    }
+    private Vector2 GetRandomPosition(){
+        return (new Vector2(Utils.RandomRange(0, xCellCount-1),Utils.RandomRange(0, yCellCount-1)));
+    }
+
     public Subject GetSubjectInPosition(Vector2 position){
         if(cells[position.x][position.y].size()>0){
             return (cells[position.x][position.y]).get(0);
@@ -125,24 +135,19 @@ public class Grid {
 
     }
 
-    private Vector2 GetRandomAdjacentPosition(Vector2 pos){
-        return ClampPos(pos.add(new Vector2(Utils.RandomRange(-1, 1),Utils.RandomRange(-1, 1))));
-    }
-    private Vector2 GetRandomPosition(){
-        return (new Vector2(Utils.RandomRange(0, xCellCount-1),Utils.RandomRange(0, yCellCount-1)));
-    }
-
     public void NextStep(){
 
         stepCount ++;
         ArrayList<Subject> temp = new ArrayList<Subject>();
         temp.addAll(population);
-        for(int i = 0; i<population.size();i++){
+
+        while(temp.size()>0){
             int randIndex = Utils.RandomRange(0, temp.size()-1);
             Subject subj = temp.get(randIndex);
             Vector2 pos = subj.GetPosition();
 
             Vector2 newPos = null;
+
             if(Main.ENABLE_TELEPORT_MOVEMENT){
                 newPos = GetRandomPosition();
             }
@@ -151,14 +156,40 @@ public class Grid {
             }
 
             MoveSubject(subj,pos,newPos);
-            subj.NextTimeStep();
-            if(subj.GetStatus() == Subject.Status.S){
-                if(GetExposed(newPos)){
-                    subj.SetExposed();
+
+            if(subj.NextTimeStep()){
+                if(subj.GetStatus() == Subject.Status.S){
+                    if(GetExposed(newPos)){
+                        subj.SetExposed();
+                    }
                 }
+            }
+            else{
+                population.remove(subj);
+                cells[newPos.x][newPos.y].remove(subj);
+                deadPopulation++;
             }
             temp.remove(subj);
         }
+    }
+
+    public void DebugPopulationInfo(){
+        HashMap<Subject.Status,Integer> info = new HashMap<Subject.Status,Integer>();
+        info.put(Subject.Status.S, 0);
+        info.put(Subject.Status.E, 0);
+        info.put(Subject.Status.I, 0);
+        info.put(Subject.Status.R, 0);
+        for(int i = 0; i<population.size();i++){
+            info.replace(population.get(i).GetStatus(), info.get(population.get(i).GetStatus())+1);
+        }
+
+        System.out.println("=============================================================");
+        System.out.println("Initial population : "+initialPopulationCount);
+        for(Subject.Status status : Subject.Status.values()){
+            System.out.println("Population count of status : "+status.name() +" : "+ info.get(status) + "(" + (info.get(status)/(float)initialPopulationCount)*100+ "%)" );
+        }
+        System.out.println("Population count of dead : " + deadPopulation + "(" +(deadPopulation/(float)initialPopulationCount)*100 + "%)" );
+        System.out.println("=============================================================");
     }
 
 
@@ -177,6 +208,7 @@ public class Grid {
             }
 
         }
+        initialPopulationCount = popCount;
     }   
     
 }

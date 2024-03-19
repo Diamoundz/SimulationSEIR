@@ -16,14 +16,18 @@ public class Main{
     // Logic constants
 
     public static Main instance;
-    private static double clockRunSpeed = (1f/5f)*1000f;
-    public static boolean USE_GUI = true;
-    public static boolean WAIT_FOR_USER_INPUT = false;
-    
-    public static boolean ENABLE_TELEPORT_MOVEMENT = false;
+    private static double clockRunSpeed = (1f/5000f)*1000f;
 
-    public Utils.DebugType debugType = null;
+    public static boolean USE_GUI = true; // Default : false;
+    public static boolean WAIT_FOR_USER_INPUT = false; // Default : false
+    public static boolean ENABLE_TELEPORT_MOVEMENT = true; // Default : true
+    public static boolean ENABLE_SUBJECT_DEATH = false; // Default : false
+
+    public Utils.DebugType debugType;
     private boolean isRunning = false;
+
+    public double countedFps;
+    public int countedFpsIterations;
 
     public long startTime;
     public MersenneTwister rand;
@@ -53,19 +57,18 @@ public class Main{
             mainProgram.Update();
             Utils.wait((int)clockRunSpeed);
         }
-        Utils.Debug("Program ended",Utils.DebugType.timeStamps);
-        System.exit(0);
+        mainProgram.End();
     }
 
     private void Awake(){
-        Utils.Debug("Program awake",Utils.DebugType.timeStamps);
+        Utils.Debug("Program awake");
     }
     
     private void Start(){
         Utils.Debug("Program start");
         
-        Main.instance.grid = new Grid(50,50);
-        Main.instance.grid.FillGrid(300,20);
+        Main.instance.grid = new Grid(300,300);
+        Main.instance.grid.FillGrid(20000,20);
         
         if(USE_GUI){
             Main.instance.gui = new Interface();
@@ -76,8 +79,10 @@ public class Main{
     }
 
     private void Update(){
+        int startTime =Utils.GetRunTime();
+
         if(WAIT_FOR_USER_INPUT){
-            String userInput = scanner.nextLine();
+            scanner.nextLine();
             Utils.Debug("Current step initialized : " + grid.GetStepCount(),Utils.DebugType.timeStamps);
         }
 
@@ -90,7 +95,24 @@ public class Main{
                 isRunning = false;
             }
         }
-        Utils.Debug("Current step completed",Utils.DebugType.timeStamps);
+        int endTime =Utils.GetRunTime();
+        int frameTime = endTime-startTime;
+
+        Main.instance.countedFps += frameTime;
+        Main.instance.countedFpsIterations++;
+
+        if(debugType == Utils.DebugType.stepInfo ||debugType==Utils.DebugType.all)
+        {
+            grid.DebugPopulationInfo();
+        }
+        Utils.Debug("Current step completed in "+frameTime +" ms.",Utils.DebugType.timeStamps);
+    }
+
+    private void End(){
+        grid.DebugPopulationInfo();
+        Utils.Debug("Average FPS at runtime: "+ 1/((float)(Main.instance.countedFps/Main.instance.countedFpsIterations)/1000));
+        Utils.Debug("Program ended");
+        System.exit(0);
     }
 
 }
