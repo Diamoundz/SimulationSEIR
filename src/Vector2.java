@@ -6,4 +6,8 @@ public class Vector2 {
         this.x = x;
         this.y = y;
     }
+        public Vector2 add(Vector2 other) {
+        return new Vector2(this.x + other.x, this.y + other.y);
+    }
+
 }

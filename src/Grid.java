@@ -33,22 +33,36 @@ public class Grid {
     private Vector2 ClampPos(Vector2 pos)
     {
         Vector2 newPos = pos;
-        if(pos.x > xCellCount){
+        if(pos.x >= xCellCount){
             newPos.x = -(xCellCount - pos.x);
         }
         if(pos.x < 0){
-            newPos.x = xCellCount*pos.x;
+            newPos.x = xCellCount+pos.x;
         }
-        if(pos.y > yCellCount){
+        if(pos.y >= yCellCount){
             newPos.y = -(yCellCount - pos.y);
         }
         if(pos.y < 0){
-            newPos.y = yCellCount*pos.y;
+            newPos.y = yCellCount+pos.y;
         }
         return newPos;
     }
 
     private boolean GetExposed(Vector2 pos){
+        int expositionCount = GetExposedCount(pos);
+        double rand = Main.instance.rand.nextDouble();
+        double p = 1-Math.exp(-Subject.INFECTION_FORCE*expositionCount);
+        if(rand<p){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+
+    private int GetExposedCount(Vector2 pos){
+        int infectedCount =0;
         for(int i = -1; i<2 ; i++){
             for(int j = -1; j<2 ; j++){
                 Vector2 newPos = new Vector2(pos.x+i, pos.y + j);
@@ -56,13 +70,13 @@ public class Grid {
                 && newPos.y>=0 && newPos.y<yCellCount){
                     for(int k = 0; k<cells[newPos.x][newPos.y].size(); k++){
                         if(cells[newPos.x][newPos.y].get(k).GetStatus() == Subject.Status.I){
-                            return true;
+                            infectedCount+=1;
                         }
                     }
                 }
             }
         }
-        return false;
+        return infectedCount;
     }
 
     public Subject GetSubjectInPosition(Vector2 position){
@@ -111,16 +125,31 @@ public class Grid {
 
     }
 
+    private Vector2 GetRandomAdjacentPosition(Vector2 pos){
+        return ClampPos(pos.add(new Vector2(Utils.RandomRange(-1, 1),Utils.RandomRange(-1, 1))));
+    }
+    private Vector2 GetRandomPosition(){
+        return (new Vector2(Utils.RandomRange(0, xCellCount-1),Utils.RandomRange(0, yCellCount-1)));
+    }
+
     public void NextStep(){
 
         stepCount ++;
         ArrayList<Subject> temp = new ArrayList<Subject>();
         temp.addAll(population);
         for(int i = 0; i<population.size();i++){
-            int randIndex = Utils.RandomRange(0, temp.size());
+            int randIndex = Utils.RandomRange(0, temp.size()-1);
             Subject subj = temp.get(randIndex);
             Vector2 pos = subj.GetPosition();
-            Vector2 newPos = new Vector2(Utils.RandomRange(0, xCellCount),Utils.RandomRange(0, yCellCount));
+
+            Vector2 newPos = null;
+            if(Main.ENABLE_TELEPORT_MOVEMENT){
+                newPos = GetRandomPosition();
+            }
+            else{
+                newPos = GetRandomAdjacentPosition(pos);
+            }
+
             MoveSubject(subj,pos,newPos);
             subj.NextTimeStep();
             if(subj.GetStatus() == Subject.Status.S){
@@ -137,7 +166,7 @@ public class Grid {
         int remainingInfected = infectedCount;
         for(int x = 0 ; x < popCount; x++ ){
 
-            Vector2 pos = new Vector2(Utils.RandomRange(0, xCellCount),Utils.RandomRange(0, yCellCount));
+            Vector2 pos = new Vector2(Utils.RandomRange(0, xCellCount-1),Utils.RandomRange(0, yCellCount-1));
             Subject subject = new Subject(pos);
             population.add(subject);
             cells[pos.x][pos.y].add(subject);

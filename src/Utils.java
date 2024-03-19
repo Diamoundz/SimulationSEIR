@@ -41,6 +41,6 @@ public class Utils {
         return -inMean*Math.log(1 - Main.instance.rand.nextFloat());
     }
     public static int RandomRange(int lowerBound, int upperBound){
-        return Main.instance.rand.nextInt(upperBound-lowerBound)+lowerBound;
+        return Main.instance.rand.nextInt(upperBound-lowerBound+1)+lowerBound;
     }
 }

@@ -10,6 +10,7 @@ public class Subject {
     public static Color E_COLOR = new Color(0,0,255,255);
     public static Color I_COLOR = new Color(255,0,0,255);
     public static Color R_COLOR = new Color(0,255,0,255);
+    public static double INFECTION_FORCE = 0.1;
 
     public enum Status{
         S,
