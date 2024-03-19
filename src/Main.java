@@ -16,7 +16,7 @@ public class Main{
     // Logic constants
 
     public static Main instance;
-    private static double clockRunSpeed = (1f/60f)*1000f;
+    private static double clockRunSpeed = (1f/5f)*1000f;
     public static boolean USE_GUI = true;
     public static boolean WAIT_FOR_USER_INPUT = false;
     
@@ -64,8 +64,8 @@ public class Main{
     private void Start(){
         Utils.Debug("Program start");
         
-        Main.instance.grid = new Grid(200,200);
-        Main.instance.grid.FillGrid(80000,100);
+        Main.instance.grid = new Grid(50,50);
+        Main.instance.grid.FillGrid(300,20);
         
         if(USE_GUI){
             Main.instance.gui = new Interface();
