@@ -18,7 +18,7 @@ public class Main{
     public static Main instance;
     private static double clockRunSpeed = (1f/60f)*1000f;
     public static boolean USE_GUI = true;
-    public static boolean WAIT_FOR_USER_INPUT = true;
+    public static boolean WAIT_FOR_USER_INPUT = false;
 
     public Utils.DebugType debugType = Utils.DebugType.timeStamps;
     private boolean isRunning = false;
@@ -60,16 +60,17 @@ public class Main{
     }
     
     private void Start(){
-        Utils.Debug("Program start",Utils.DebugType.timeStamps);
-
-        grid = new Grid(50,50);
-        grid.FillGrid(100);
-
+        Utils.Debug("Program start");
+        
+        Main.instance.grid = new Grid(50,50);
+        Main.instance.grid.FillGrid(20000);
+        
         if(USE_GUI){
-            gui = new Interface();
-            gui.CreateWindow(900);
-            gui.DisplayGrid(grid);
+            Main.instance.gui = new Interface();
+            Main.instance.gui.CreateWindow();
+            Main.instance.gui.DisplayGrid(grid);
         }
+
     }
 
     private void Update(){

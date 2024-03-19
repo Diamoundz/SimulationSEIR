@@ -1,6 +1,7 @@
 package com.visual;
 
 import com.main.*;
+import com.visual.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
@@ -18,14 +19,23 @@ public class Interface
     private int width;
     public int height;
 
-    public void CreateWindow(int height)
+    public void CreateWindow()
     {
-        this.height = height;
-        this.width = height + controlPanelX;
+        OnInit();
+
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame = new JFrame();
         
-        frame.setSize(width, height);
+        if (height < screenSize.getHeight())
+        {
+            frame.setSize(width, height);
+        }
+        else
+        {
+            height = (int) screenSize.getHeight();
+            this.width = height + controlPanelX;
+            frame.setSize(width, height);
+        }
 
         // Make the frame not resizable
         frame.setResizable(false);
@@ -36,8 +46,44 @@ public class Interface
         SplitScreen();
     }
 
-    public boolean IsActive(){
-        return this.frame != null && frame.isVisible();
+    private void OnInit() {
+        JFrame frame = new JFrame("Main Screen");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(500, 500);
+        frame.setVisible(false);
+    
+        PreLoadScreen preloadScreen = new PreLoadScreen(frame);
+        while (!preloadScreen.isSubmitted()) {
+            try {
+                Thread.sleep(100); // Sleep to avoid busy waiting
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        frame.dispose();
+    
+        // Once the preload screen is closed, continue with the rest of the code
+        String heightInput = preloadScreen.getHeightInput();
+        String gridSizeInput = preloadScreen.getGridSizeInput();
+        String startPopulationInput = preloadScreen.getStartPopulationInput();
+
+        if(!heightInput.equals("") && !gridSizeInput.equals(gridSizeInput) && !startPopulationInput.equals(startPopulationInput)){
+            // Convert strings into integers
+            int height = Integer.parseInt(heightInput);
+            int gridSize = Integer.parseInt(gridSizeInput);
+            int startPopulation = Integer.parseInt(startPopulationInput);
+
+            // Now you can process the input values
+            Main.instance.grid = new Grid(gridSize, gridSize);
+            Main.instance.grid.FillGrid(startPopulation);
+        }
+        this.height = 900;
+        this.width = 900 + controlPanelX;
+
+    }    
+
+    public boolean IsActive() {
+        return frame != null && frame.isVisible();
     }
 
     private void SplitScreen() 
@@ -74,7 +120,7 @@ public class Interface
     
         // Refresh the frame to display changes
         frame.revalidate();
-        frame.setSize(height + controlPanelX, height + 37);
+        frame.setSize(width, height + 37);
     }
 
     private void MakeGrid(JPanel panel, int size) {
