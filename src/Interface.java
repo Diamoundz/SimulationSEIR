@@ -76,9 +76,15 @@ public class Interface
             // Now you can process the input values
             Main.instance.grid = new Grid(gridSize, gridSize);
             Main.instance.grid.FillGrid(startPopulation);
+
+            this.height = height;
+            this.width = height + controlPanelX;
         }
-        this.height = 900;
-        this.width = 900 + controlPanelX;
+        else{
+            this.height = 900;
+            this.width = 900 + controlPanelX;
+        }
+
 
     }    
 
