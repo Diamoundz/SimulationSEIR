@@ -10,6 +10,7 @@ public class Subject {
     public static Color E_COLOR = new Color(0,0,255,255);
     public static Color I_COLOR = new Color(255,0,0,255);
     public static Color R_COLOR = new Color(0,255,0,255);
+    public static double INFECTION_FORCE = 0.1;
 
     public enum Status{
         S,
@@ -33,7 +34,6 @@ public class Subject {
         this.dI = (int)Utils.NegExp((double)7);
         this.dR = (int)Utils.NegExp((double)365);
         this.position = position;
-        this.SetExposed();
     }
 
     public void SetExposed(){
@@ -41,6 +41,11 @@ public class Subject {
             this.status = Status.E;
             statusTime = 0;
         }
+    }
+
+    public void SetStatus(Status status){
+        statusTime = 0;
+        this.status =status;
     }
 
     public void NextTimeStep(){

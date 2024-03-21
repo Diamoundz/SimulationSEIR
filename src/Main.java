@@ -19,6 +19,8 @@ public class Main{
     private static double clockRunSpeed = (1f/60f)*1000f;
     public static boolean USE_GUI = true;
     public static boolean WAIT_FOR_USER_INPUT = false;
+    
+    public static boolean ENABLE_TELEPORT_MOVEMENT = false;
 
     public Utils.DebugType debugType = null;
     private boolean isRunning = false;
@@ -62,8 +64,8 @@ public class Main{
     private void Start(){
         Utils.Debug("Program start");
         
-        Main.instance.grid = new Grid(100,100);
-        Main.instance.grid.FillGrid(20000);
+        Main.instance.grid = new Grid(200,200);
+        Main.instance.grid.FillGrid(20000, 20);
         
         if(USE_GUI){
             Main.instance.gui = new Interface();
