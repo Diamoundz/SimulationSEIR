@@ -10,7 +10,9 @@ public class Subject {
     public static Color E_COLOR = new Color(0,0,255,255);
     public static Color I_COLOR = new Color(255,0,0,255);
     public static Color R_COLOR = new Color(0,255,0,255);
-    public static double INFECTION_FORCE = 0.1;
+
+    public static double INFECTION_FORCE = 0.5;// default is 0.5
+    public static double DEATH_CHANCE = 0.002;
 
     public enum Status{
         S,
@@ -32,7 +34,7 @@ public class Subject {
         this.status = Status.S;
         this.dE = (int)Utils.NegExp((double)3);
         this.dI = (int)Utils.NegExp((double)7);
-        this.dR = (int)Utils.NegExp((double)365);
+        this.dR = (int)Utils.NegExp((double)365);//Default is 365
         this.position = position;
     }
 
@@ -48,18 +50,22 @@ public class Subject {
         this.status =status;
     }
 
-    public void NextTimeStep(){
+    public boolean NextTimeStep(){
         statusTime++;
         switch (status) {
             case E:
                 if(statusTime>dE) {CycleNextState();}
             case I:
+                if(Main.ENABLE_SUBJECT_DEATH && Main.instance.rand.nextDouble()<DEATH_CHANCE){
+                    return false;
+                }
                 if(statusTime>dI) {CycleNextState();}
             case R:
                 if(statusTime>dR) {CycleNextState();}                               
             default:
                 break;
         }
+        return true;
     }
 
     public Status GetStatus()
@@ -76,7 +82,7 @@ public class Subject {
             case I:
                 return I_COLOR;
             case R:
-                return R_COLOR;                                     
+                return R_COLOR;                                   
             default:
                 return null;
         }
