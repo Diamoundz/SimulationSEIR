@@ -16,7 +16,7 @@ public class Main{
     // Logic constants
 
     public static Main instance;
-    private static double clockRunSpeed = (1f/5000f)*1000f;
+    private static double clockRunSpeed = (1f/60f)*1000f;
 
     public static boolean USE_GUI = true; // Default : false;
     public static boolean WAIT_FOR_USER_INPUT = false; // Default : false
@@ -67,13 +67,14 @@ public class Main{
     private void Start(){
         Utils.Debug("Program start");
         
-        Main.instance.grid = new Grid(300,300);
-        Main.instance.grid.FillGrid(20000,20);
+        Vector2 gridSize = new Vector2(200, 200);
+
+        Main.instance.grid = new Grid(gridSize.x, gridSize.y);
+        Main.instance.grid.FillGrid(40000,20);
         
         if(USE_GUI){
-            Main.instance.gui = new Interface();
-            Main.instance.gui.CreateWindow();
-            Main.instance.gui.DisplayGrid(grid);
+            gui = new Interface(1600, 1000, gridSize.x, gridSize.y);
+            gui.displayGrid(grid);
         }
 
     }
@@ -88,12 +89,8 @@ public class Main{
 
         grid.NextStep();
         if(USE_GUI){
-            if(gui.IsActive()){
-                gui.DisplayGrid(grid);
-            }
-            else{
-                isRunning = false;
-            }
+            if (gui.isActive()){gui.displayGrid(grid);}
+            else {isRunning = false;}
         }
         int endTime =Utils.GetRunTime();
         int frameTime = endTime-startTime;
