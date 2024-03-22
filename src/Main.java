@@ -23,7 +23,7 @@ public class Main{
     public static boolean ENABLE_TELEPORT_MOVEMENT = true; // Default : true
     public static boolean ENABLE_SUBJECT_DEATH = false; // Default : false
 
-    public Utils.DebugType debugType;
+    public Utils.DebugType debugType = Utils.DebugType.all;
     private boolean isRunning = false;
 
     public double countedFps;

@@ -1,22 +1,10 @@
-<<<<<<< HEAD
-./src/Utils.java
-./src/MersenneTwister.java
-./src/Grid.java
-./src/PreLoadScreen.java
-./src/Keyboard.java
-./src/Square.java
-./src/Vector2.java
-./src/Subject.java
-./src/Interface.java
-./src/Main.java
-=======
 C:\Users\Jerome\Documents\Programming\Java\SimulationSEIR\src\Grid.java
 C:\Users\Jerome\Documents\Programming\Java\SimulationSEIR\src\Interface.java
 C:\Users\Jerome\Documents\Programming\Java\SimulationSEIR\src\Keyboard.java
 C:\Users\Jerome\Documents\Programming\Java\SimulationSEIR\src\Main.java
 C:\Users\Jerome\Documents\Programming\Java\SimulationSEIR\src\MersenneTwister.java
 C:\Users\Jerome\Documents\Programming\Java\SimulationSEIR\src\PreLoadScreen.java
+C:\Users\Jerome\Documents\Programming\Java\SimulationSEIR\src\Square.java
 C:\Users\Jerome\Documents\Programming\Java\SimulationSEIR\src\Subject.java
 C:\Users\Jerome\Documents\Programming\Java\SimulationSEIR\src\Utils.java
 C:\Users\Jerome\Documents\Programming\Java\SimulationSEIR\src\Vector2.java
->>>>>>> 8517568699b048a3a507690968213ed4a07e1fb3
