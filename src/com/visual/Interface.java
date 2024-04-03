@@ -1,13 +1,10 @@
 package com.visual;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 
 import com.main.*;
 
@@ -27,6 +24,7 @@ public class Interface {
     private JPanel gridPanel;
 
     private boolean windowOpen = false;
+    private boolean loaded = false;
 
     public Interface(int width, int height, int numRows, int numCols) {
         this.width = width;
@@ -61,12 +59,13 @@ public class Interface {
         mainFrame.setLocationRelativeTo(null);
     
         // Create buttons for Next Step and Previous Step
-        JPanel nextPrevPanel = createButtonPanel("Next Step", "Previous Step",
-                "Next Step clicked!", "Previous Step clicked!");
+        JPanel nextPrevPanel = createButtonPanel("Next Step", "Previous Step");
     
         // Create buttons for Play auto and Pause
-        JPanel playPausePanel = createButtonPanel("Play auto", "Pause",
-                "Play auto clicked!", "Pause clicked!");
+        JPanel playPausePanel = createButtonPanel("Play auto", "Pause");
+        
+        addListeners(nextPrevPanel);
+        addListeners(playPausePanel);
     
         // Center button panels vertically with space between them
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
@@ -80,6 +79,60 @@ public class Interface {
         windowOpen = true;
 
         createGridPanel(numRows, numCols);
+    }
+
+    // Method to add listeners to buttons
+    private void addListeners(JPanel panel) {
+        Component[] components = panel.getComponents();
+        
+        for (Component component : components) {
+            if (component instanceof JButton) {
+                JButton button = (JButton) component;
+                
+                button.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String action = e.getActionCommand();
+                        
+                        switch (action) {
+                            case "Next Step":
+                                nextStepClicked();
+                                break;
+                            case "Previous Step":
+                                previousStepClicked();
+                                break;
+                            case "Play auto":
+                                playAutoClicked();
+                                break;
+                            case "Pause":
+                                pauseClicked();
+                                break;
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    // Functions to be executed when buttons are clicked
+    private void nextStepClicked() {
+        System.out.println("Next Step clicked!");
+        // Add your logic here
+    }
+    
+    private void previousStepClicked() {
+        System.out.println("Previous Step clicked!");
+        // Add your logic here
+    }
+    
+    private void playAutoClicked() {
+        System.out.println("Play auto clicked!");
+        // Add your logic here
+    }
+    
+    private void pauseClicked() {
+        System.out.println("Pause clicked!");
+        // Add your logic here
     }
 
     private void createGridPanel(int numRows, int numCols) {
@@ -139,16 +192,12 @@ public class Interface {
         return panel;
     }
 
-    private JPanel createButtonPanel(String buttonText1, String buttonText2, String action1, String action2) {
+    private JPanel createButtonPanel(String buttonText1, String buttonText2) {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.DARK_GRAY); // Set background color to dark grey
 
-        JButton button1 = createButton(buttonText1, e -> {
-            JOptionPane.showMessageDialog(mainFrame, action1);
-        });
-        JButton button2 = createButton(buttonText2, e -> {
-            JOptionPane.showMessageDialog(mainFrame, action2);
-        });
+        JButton button1 = createButton(buttonText1);
+        JButton button2 = createButton(buttonText2);
 
         // Set button alignment to center
         button1.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -168,9 +217,8 @@ public class Interface {
         return buttonPanel;
     }
 
-    private JButton createButton(String text, ActionListener actionListener) {
+    private JButton createButton(String text) {
         JButton button = new JButton(text);
-        button.addActionListener(actionListener);
         return button;
     }
 
@@ -197,28 +245,30 @@ public class Interface {
     public void displayGrid(Grid grid) {
         Vector2 size = grid.GetSize();
     
-        System.out.println("\n");
-        while (gridPanel == null) {
-            System.out.print("\rWaiting for grid to initialize...");
-            try {
-                Thread.sleep(100); // Add a short delay to reduce CPU usage
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt(); // Restore interrupted status
+        if (!loaded){
+            System.out.println("\n");
+            while (gridPanel == null) {
+                System.out.print("\rWaiting for grid to initialize...");
+                try {
+                    Thread.sleep(100); // Add a short delay to reduce CPU usage
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt(); // Restore interrupted status
+                }
             }
-        }
-        System.out.println("\ngrid initialized successfull.\n");
-    
-        // Ensure renderPanel has the correct number of components
-        int expectedComponents = size.x * size.y;
-        while (gridPanel.getComponentCount() != expectedComponents) {
-            System.out.print("\rWaiting for grid elements...");
-            try {
-                Thread.sleep(100); // Add a short delay to reduce CPU usage
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt(); // Restore interrupted status
+            System.out.println("\ngrid initialized successfull.\n");
+        
+            // Ensure renderPanel has the correct number of components
+            int expectedComponents = size.x * size.y;
+            while (gridPanel.getComponentCount() != expectedComponents) {
+                System.out.print("\rWaiting for grid elements...");
+                try {
+                    Thread.sleep(100); // Add a short delay to reduce CPU usage
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt(); // Restore interrupted status
+                }
             }
+            loaded = true;
         }
-        System.out.println("\nAll grid elements added.\n");
     
         for (int i = 0; i < size.y; i++) {
             for (int j = 0; j < size.x; j++) {
