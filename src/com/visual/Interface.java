@@ -91,7 +91,8 @@ public class Interface {
         if (cellSize == 1){borderActive = false;}
     
         // Add cells to the gridPanel
-        for (int i = 0; i < numRows * numCols; i++) {
+        int total = numRows * numCols;
+        for (int i = 0; i < total; i++) {
             JPanel cell = new JPanel();
             cell.setBackground(Color.BLACK); // Set cell background color
             if (borderActive){
@@ -180,7 +181,8 @@ public class Interface {
             int expectedComponents = size.x * size.y;
             while (gridPanel.getComponentCount() != expectedComponents) {
                 try {
-                    Thread.sleep(100); // Add a short delay to reduce CPU usage
+                    System.out.print("\rProgress: " + (int) ((double) gridPanel.getComponentCount() / expectedComponents * 100) + "%");
+                    Thread.sleep(30); // Add a short delay to reduce CPU usage
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt(); // Restore interrupted status
                 }
