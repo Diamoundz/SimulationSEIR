@@ -1,8 +1,6 @@
 package com.main;
 import com.visual.*;
 
-import java.io.File;
-import java.text.DecimalFormat;
 import java.util.Scanner;
 
 
@@ -18,8 +16,8 @@ public class Main{
     public static boolean ENABLE_TELEPORT_MOVEMENT = true; // Default : true
     public static boolean ENABLE_SUBJECT_DEATH = false; // Default : false
 
-    public static int SIMULATION_ITERATIONS = 40; // Default : 730
-    public static int SIMULATION_COUNT = 3; // Default : 100
+    public static int SIMULATION_ITERATIONS = 730; // Default : 730
+    public static int SIMULATION_COUNT = 100; // Default : 100
 
     public static int GRID_SIZE_X = 300; // Default : 300
     public static int GRID_SIZE_Y = 300; // Default : 300
@@ -127,12 +125,15 @@ public class Main{
             Utils.Debug("Completed "+SIMULATION_COUNT*SIMULATION_ITERATIONS +" iterations, Shutting down ...");
             isRunning = false;
         }
+        CSVGenerator.RecordStep(grid, "./data/data"+((currentSimulationStep-1)/SIMULATION_ITERATIONS)+".csv");
+
+
         if(currentSimulationStep%SIMULATION_ITERATIONS ==0){
             Main.instance.grid = new Grid(GRID_SIZE_X, GRID_SIZE_Y);
             Main.instance.grid.FillGrid(INITIAL_POP_COUNT,INITIAL_INFECTED_COUNT);
         }
 
-        CSVGenerator.RecordStep(grid, "./data/data"+((currentSimulationStep-1)/SIMULATION_ITERATIONS)+".csv");
+
     
 
         Utils.Debug("Current step completed in "+frameTime +" ms.",Utils.DebugType.timeStamps);

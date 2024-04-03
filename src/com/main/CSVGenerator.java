@@ -38,7 +38,7 @@ public class CSVGenerator {
 
         // If it's a new file or empty, write the header
         if (isNewFile) {
-            csvWriter.append("S,E,I,R\n"); // Assuming these are your column headers
+            csvWriter.append("S,E,I,R\n");
         }
 
         // Get population info from grid
