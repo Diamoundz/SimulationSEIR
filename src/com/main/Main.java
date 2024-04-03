@@ -25,6 +25,7 @@ public class Main{
     public int countedFpsIterations;
     public long startTime;
     public boolean isPaused;
+    public int currentSimulationStep = 0;
 
     private boolean isRunning = false;
     private int currentSimulationCount = 0;

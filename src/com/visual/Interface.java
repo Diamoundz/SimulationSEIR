@@ -20,6 +20,7 @@ public class Interface {
     private JFrame mainFrame;
     private JPanel displayPanel;
     private JPanel gridPanel;
+    private JProgressBar progressBar; // Progress bar for displaying loading progress
 
     private boolean windowOpen = false;
     private boolean loaded = false;
@@ -34,25 +35,21 @@ public class Interface {
 
     private void createAndShowGUI() {
         mainFrame = new JFrame("SEIR SIMULATION");
-        //mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         mainFrame.setLayout(new BorderLayout());
-    
-        // Create the display panel
-        displayPanel = createPanel(Color.DARK_GRAY, width); // Default background color
-        mainFrame.add(displayPanel, BorderLayout.CENTER); // Add to the center
-    
-        // Set minimum size for the main frame
+
+        displayPanel = createPanel(Color.DARK_GRAY, width);
+        mainFrame.add(displayPanel, BorderLayout.CENTER);
+
         mainFrame.setMinimumSize(new Dimension(600, 300));
-    
-        // Set mainFrame size
-        mainFrame.setSize(1600, 1000); // Set to your desired size
-    
-        // Set mainFrame location to the center of the screen
+        mainFrame.setSize(1600, 1000);
         mainFrame.setLocationRelativeTo(null);
 
+        progressBar = new JProgressBar();
+        progressBar.setStringPainted(true);
+        mainFrame.add(progressBar, BorderLayout.SOUTH);
 
-        mainFrame.setVisible(true);
         windowOpen = true;
+        mainFrame.setVisible(true);
 
         createGridPanel(numRows, numCols);
     }
@@ -160,7 +157,7 @@ public class Interface {
     }
 
     public boolean isActive() {
-        return windowOpen && mainFrame != null && mainFrame.isVisible();
+        return windowOpen && mainFrame != null && mainFrame.isVisible() && loaded;
     }
 
     public void displayGrid(Grid grid) {
@@ -207,5 +204,9 @@ public class Interface {
                 cellPanel.setBackground(cellColor);
             }
         }
+        int maxIter = Main.SIMULATION_COUNT*Main.SIMULATION_ITERATIONS;
+        int actualIter = Main.instance.grid.GetStepCount();
+        int percentage = (int)((double) actualIter/maxIter*100);
+        progressBar.setValue(percentage);
     }
 }
