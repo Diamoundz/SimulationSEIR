@@ -21,7 +21,7 @@ public class Grid {
         this.yCellCount = ySize;
         this.cells =  new ArrayList[xCellCount][yCellCount];
         for(int x = 0; x < xCellCount; x++){
-            for(int y = 0; y < xCellCount; y++){
+            for(int y = 0; y < yCellCount; y++){
                 this.cells[x][y] = new ArrayList<Subject>();
             }
         }
@@ -111,16 +111,16 @@ public class Grid {
 
     public Color GetCellColor(Vector2 coord){
 
-        int max = cells[coord.x][coord.y].size();
+        int max = cells[coord.y][coord.x].size();
 
         if(max >0){
             double r = 0,g = 0,b = 0,a = 0;
 
             for(int i = 0;i<max;i++){
-                r += cells[coord.x][coord.y].get(i).GetColor().getRed()/max;
-                g += cells[coord.x][coord.y].get(i).GetColor().getGreen()/max;
-                b += cells[coord.x][coord.y].get(i).GetColor().getBlue()/max;
-                a += cells[coord.x][coord.y].get(i).GetColor().getAlpha()/max;
+                r += cells[coord.y][coord.x].get(i).GetColor().getRed()/max;
+                g += cells[coord.y][coord.x].get(i).GetColor().getGreen()/max;
+                b += cells[coord.y][coord.x].get(i).GetColor().getBlue()/max;
+                a += cells[coord.y][coord.x].get(i).GetColor().getAlpha()/max;
             }
             return new Color((int)r,(int)g,(int)b,(int)a);
         }

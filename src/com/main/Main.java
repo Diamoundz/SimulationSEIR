@@ -1,5 +1,7 @@
 package com.main;
 import com.visual.*;
+
+import java.text.DecimalFormat;
 import java.util.Scanner;
 
 
@@ -15,8 +17,8 @@ public class Main{
     public static boolean ENABLE_TELEPORT_MOVEMENT = true; // Default : true
     public static boolean ENABLE_SUBJECT_DEATH = false; // Default : false
 
-    public static int SIMULATION_ITERATIONS = 730;
-    public static int SIMULATION_COUNT = 100;
+    public static int SIMULATION_ITERATIONS = 100; // Default : 730
+    public static int SIMULATION_COUNT = 1; // Default : 100
 
     public Utils.DebugType debugType = Utils.DebugType.none;
     public double countedFps;
@@ -66,7 +68,7 @@ public class Main{
     private void Start(){
         Utils.Debug("Program start");
         
-        Vector2 gridSize = new Vector2(200, 200);
+        Vector2 gridSize = new Vector2(300, 200);
 
         Main.instance.grid = new Grid(gridSize.x, gridSize.y);
         Main.instance.grid.FillGrid(20000,20);
@@ -109,6 +111,11 @@ public class Main{
         }
 
         if(currentSimulationCount == SIMULATION_COUNT *SIMULATION_ITERATIONS-1){
+
+            if(!USE_GUI){
+                updateProgressBar(1,1);
+                System.out.print("\n");
+            }
             Utils.Debug("Completed "+SIMULATION_COUNT*SIMULATION_ITERATIONS +" iterations, Shutting down ...");
             isRunning = false;
         }
@@ -124,18 +131,21 @@ public class Main{
         System.exit(0);
     }
 
+     // Method to update progress bar
     public static void updateProgressBar(int completed, int total) {
-        // Calculate progress percentage
-        int progress = (int) (100.0 * completed / total);
+        // Calculate progress percentage with 0.001 precision
+        double progress = (double) completed / total;
+        DecimalFormat df = new DecimalFormat("0.000");
+        String progressStr = df.format(progress * 100);
 
         // Define length of progress bar
         int barLength = 50;
 
         // Calculate number of '=' characters to represent progress
-        int numOfBars = (int) (progress * barLength / 100.0);
+        int numOfBars = (int) (progress * barLength);
 
         // Create progress bar string
-        StringBuilder progressBar = new StringBuilder("[");
+        StringBuilder progressBar = new StringBuilder("Progress : [");
         for (int i = 0; i < barLength; i++) {
             if (i < numOfBars) {
                 progressBar.append("=");
@@ -143,7 +153,7 @@ public class Main{
                 progressBar.append(" ");
             }
         }
-        progressBar.append("] " + progress + "%");
+        progressBar.append("] " + progressStr + "%");
 
         // Print progress bar
         System.out.print("\r" + progressBar.toString());

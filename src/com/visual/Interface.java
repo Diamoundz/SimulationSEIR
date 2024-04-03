@@ -11,8 +11,6 @@ import com.main.Utils.DebugType;
 
 public class Interface {
 
-    private int CONTROL_PANEL_X = 300;
-
     private int width;
     private int height;
 
@@ -20,7 +18,6 @@ public class Interface {
     private int numCols;
 
     private JFrame mainFrame;
-    private JPanel controlPanel;
     private JPanel displayPanel;
     private JPanel gridPanel;
 
@@ -40,14 +37,8 @@ public class Interface {
         //mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         mainFrame.setLayout(new BorderLayout());
     
-        // Create control panel
-        controlPanel = createPanel(Color.DARK_GRAY, CONTROL_PANEL_X); // Fixed width of 300 pixels
-        controlPanel.setBorder(new LineBorder(Color.BLACK, 1));
-        mainFrame.add(controlPanel, BorderLayout.WEST);
-    
         // Create the display panel
-        displayPanel = createPanel(Color.DARK_GRAY, width - CONTROL_PANEL_X); // Default background color
-        controlPanel.setBorder(new LineBorder(Color.BLACK, 1));
+        displayPanel = createPanel(Color.DARK_GRAY, width); // Default background color
         mainFrame.add(displayPanel, BorderLayout.CENTER); // Add to the center
     
         // Set minimum size for the main frame
@@ -58,74 +49,12 @@ public class Interface {
     
         // Set mainFrame location to the center of the screen
         mainFrame.setLocationRelativeTo(null);
-    
-        // Create buttons for Next Step and Previous Step
-        JPanel nextPrevPanel = createButtonPanel("Next Step", "");
-    
-        // Create buttons for Play auto and Pause
-        JPanel playPausePanel = createButtonPanel("Play", "Pause");
-        
-        addListeners(nextPrevPanel);
-        addListeners(playPausePanel);
-    
-        // Center button panels vertically with space between them
-        controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
-        controlPanel.add(Box.createVerticalGlue());
-        controlPanel.add(nextPrevPanel);
-        controlPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing between button panels
-        controlPanel.add(playPausePanel);
-        controlPanel.add(Box.createVerticalGlue());
+
 
         mainFrame.setVisible(true);
         windowOpen = true;
 
         createGridPanel(numRows, numCols);
-    }
-
-    // Method to add listeners to buttons
-    private void addListeners(JPanel panel) {
-        Component[] components = panel.getComponents();
-        
-        for (Component component : components) {
-            if (component instanceof JButton) {
-                JButton button = (JButton) component;
-                
-                button.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        String action = e.getActionCommand();
-                        
-                        switch (action) {
-                            case "Next Step":
-                                nextStepClicked();
-                                break;
-                            case "Play":
-                                playClicked();
-                                break;
-                            case "Pause":
-                                pauseClicked();
-                                break;
-                        }
-                    }
-                });
-            }
-        }
-    }
-
-    // Functions to be executed when buttons are clicked
-    private void nextStepClicked() {
-        System.out.println("Step");
-        Main.instance.grid.NextStep();
-    }
-    
-    private void playClicked() {
-        System.out.println("Play");
-        Main.instance.isPaused = false;
-    }
-    
-    private void pauseClicked() {
-        System.out.println("Pause");
-        Main.instance.isPaused = true;
     }
 
     private void createGridPanel(int numRows, int numCols) {
@@ -219,10 +148,6 @@ public class Interface {
 
     public JFrame getMainFrame() {
         return mainFrame;
-    }
-
-    public JPanel getControlPanel() {
-        return controlPanel;
     }
 
     public JPanel getDisplayPanel() {
