@@ -1,6 +1,7 @@
 package com.main;
 import com.visual.*;
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
@@ -12,28 +13,33 @@ public class Main{
     public static Main instance;
     private static double clockRunSpeed = (1f/60f)*1000f;
 
-    public static boolean USE_GUI = true; // Default : false;
+    public static boolean USE_GUI = false; // Default : false;
     public static boolean WAIT_FOR_USER_INPUT = false; // Default : false
     public static boolean ENABLE_TELEPORT_MOVEMENT = true; // Default : true
     public static boolean ENABLE_SUBJECT_DEATH = false; // Default : false
 
-    public static int SIMULATION_ITERATIONS = 100; // Default : 730
-    public static int SIMULATION_COUNT = 1; // Default : 100
+    public static int SIMULATION_ITERATIONS = 25; // Default : 730
+    public static int SIMULATION_COUNT = 3; // Default : 100
+
+    public static int GRID_SIZE_X = 300; // Default : 300
+    public static int GRID_SIZE_Y = 300; // Default : 300
+
+    public static int INITIAL_POP_COUNT = 20000; // Default : 20000
+    public static int INITIAL_INFECTED_COUNT = 20; //Default : 20
 
     public Utils.DebugType debugType = Utils.DebugType.none;
     public double countedFps;
     public int countedFpsIterations;
     public long startTime;
     public boolean isPaused;
+    public int currentSimulationStep;
 
     private boolean isRunning = false;
-    private int currentSimulationCount = 0;
     
     public MersenneTwister rand;
     public Scanner scanner = new Scanner(System.in);
     public Interface gui;
     public Grid grid;
-
 
 
     public Main(){
@@ -47,6 +53,7 @@ public class Main{
         mainProgram.startTime = System.nanoTime();
 
         mainProgram.rand = new MersenneTwister(new int[]{0x123, 0x234, 0x345, 0x456});
+
 
         mainProgram.isRunning = true;
         mainProgram.Awake();
@@ -67,16 +74,14 @@ public class Main{
     
     private void Start(){
         Utils.Debug("Program start");
+
+        CSVGenerator.ClearData("./data/");
         
-        Vector2 gridSize = new Vector2(200, 300);
-
-        Main.instance.grid = new Grid(gridSize.x, gridSize.y);
-        Main.instance.grid.FillGrid(20000,20);
+        Main.instance.grid = new Grid(GRID_SIZE_X, GRID_SIZE_Y);
+        Main.instance.grid.FillGrid(INITIAL_POP_COUNT,INITIAL_INFECTED_COUNT);
         
-
-
         if(USE_GUI){
-            gui = new Interface(1000, 600, gridSize.x, gridSize.y);
+            gui = new Interface(1000, 600, GRID_SIZE_X, GRID_SIZE_Y);
             gui.displayGrid(grid);
         }
 
@@ -91,12 +96,14 @@ public class Main{
         }
 
         grid.NextStep();
+        currentSimulationStep++;
+
         if(USE_GUI){
             if (gui.isActive()){gui.displayGrid(grid);}
             else {isRunning = false;}
         }
         else{
-            Utils.UpdateProgressBar(currentSimulationCount, SIMULATION_COUNT*SIMULATION_ITERATIONS);
+            Utils.UpdateProgressBar(currentSimulationStep, SIMULATION_COUNT*SIMULATION_ITERATIONS);
         }
 
         int endTime =Utils.GetRunTime();
@@ -110,8 +117,7 @@ public class Main{
             grid.DebugPopulationInfo();
         }
 
-        if(currentSimulationCount == SIMULATION_COUNT *SIMULATION_ITERATIONS-1){
-
+        if(currentSimulationStep == SIMULATION_COUNT *SIMULATION_ITERATIONS){
             if(!USE_GUI){
                 Utils.UpdateProgressBar(1,1);
                 System.out.print("\n");
@@ -119,13 +125,18 @@ public class Main{
             Utils.Debug("Completed "+SIMULATION_COUNT*SIMULATION_ITERATIONS +" iterations, Shutting down ...");
             isRunning = false;
         }
+        if(currentSimulationStep%SIMULATION_ITERATIONS ==0){
+            Main.instance.grid = new Grid(GRID_SIZE_X, GRID_SIZE_Y);
+            Main.instance.grid.FillGrid(INITIAL_POP_COUNT,INITIAL_INFECTED_COUNT);
+        }
 
-        currentSimulationCount++;
+        CSVGenerator.RecordStep(grid, "./data/data"+((currentSimulationStep-1)/SIMULATION_ITERATIONS)+".csv");
+    
+
         Utils.Debug("Current step completed in "+frameTime +" ms.",Utils.DebugType.timeStamps);
     }
 
     private void End(){
-        grid.DebugPopulationInfo();
         Utils.Debug("Average FPS at runtime: "+ 1/((float)(Main.instance.countedFps/Main.instance.countedFpsIterations)/1000));
         Utils.Debug("Program ended");
         System.exit(0);

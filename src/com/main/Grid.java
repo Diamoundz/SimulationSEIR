@@ -169,14 +169,7 @@ public class Grid {
     }
 
     public void DebugPopulationInfo(){
-        HashMap<Subject.Status,Integer> info = new HashMap<Subject.Status,Integer>();
-        info.put(Subject.Status.S, 0);
-        info.put(Subject.Status.E, 0);
-        info.put(Subject.Status.I, 0);
-        info.put(Subject.Status.R, 0);
-        for(int i = 0; i<population.size();i++){
-            info.replace(population.get(i).GetStatus(), info.get(population.get(i).GetStatus())+1);
-        }
+        HashMap<Subject.Status,Integer> info = GetInfoHashMap();
 
         System.out.println("=============================================================");
         System.out.println("Initial population : "+initialPopulationCount);
