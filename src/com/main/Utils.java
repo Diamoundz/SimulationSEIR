@@ -6,7 +6,8 @@ public class Utils {
     public enum DebugType{
         all,
         timeStamps,
-        stepInfo
+        stepInfo,
+        none
     }
 
     public static Utils instance;

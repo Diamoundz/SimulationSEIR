@@ -11,7 +11,9 @@ public class Subject {
     public static Color I_COLOR = new Color(255,0,0,255);
     public static Color R_COLOR = new Color(0,255,0,255);
 
-    public static double INFECTION_FORCE = 0.1;// default is 0.5
+    public static double INFECTION_FORCE = 0.5;// default is 0.5
+
+    // Opional 
     public static double DEATH_CHANCE = 0.002;
 
     public enum Status{

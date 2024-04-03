@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 import com.main.*;
+import com.main.Utils.DebugType;
 
 public class Interface {
 
@@ -36,7 +37,7 @@ public class Interface {
 
     private void createAndShowGUI() {
         mainFrame = new JFrame("SEIR SIMULATION");
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         mainFrame.setLayout(new BorderLayout());
     
         // Create control panel
@@ -62,7 +63,7 @@ public class Interface {
         JPanel nextPrevPanel = createButtonPanel("Next Step", "Previous Step");
     
         // Create buttons for Play auto and Pause
-        JPanel playPausePanel = createButtonPanel("Play auto", "Pause");
+        JPanel playPausePanel = createButtonPanel("Play", "Pause");
         
         addListeners(nextPrevPanel);
         addListeners(playPausePanel);
@@ -101,8 +102,8 @@ public class Interface {
                             case "Previous Step":
                                 previousStepClicked();
                                 break;
-                            case "Play auto":
-                                playAutoClicked();
+                            case "Play":
+                                playClicked();
                                 break;
                             case "Pause":
                                 pauseClicked();
@@ -125,7 +126,7 @@ public class Interface {
         // Add your logic here
     }
     
-    private void playAutoClicked() {
+    private void playClicked() {
         System.out.println("Play auto clicked!");
         // Add your logic here
     }
