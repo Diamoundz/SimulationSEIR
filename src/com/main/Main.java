@@ -10,7 +10,7 @@ public class Main{
     public static Main instance;
     private static double clockRunSpeed = (1f/60f)*1000f;
 
-    public static boolean USE_GUI = false; // Default : false;
+    public static boolean USE_GUI = true; // Default : false;
     public static boolean WAIT_FOR_USER_INPUT = false; // Default : false
     public static boolean ENABLE_TELEPORT_MOVEMENT = true; // Default : true
     public static boolean ENABLE_SUBJECT_DEATH = false; // Default : false
@@ -22,10 +22,10 @@ public class Main{
     public double countedFps;
     public int countedFpsIterations;
     public long startTime;
+    public boolean isPaused;
 
     private boolean isRunning = false;
     private int currentSimulationCount = 0;
-    private double currentProgressFraction = 0;
     
     public MersenneTwister rand;
     public Scanner scanner = new Scanner(System.in);
@@ -51,8 +51,10 @@ public class Main{
         mainProgram.Start();
 
         while (mainProgram.isRunning) {
-            mainProgram.Update();
-            Utils.wait((int)clockRunSpeed);
+            if(!mainProgram.isPaused){
+                mainProgram.Update();
+                Utils.wait((int)clockRunSpeed);
+            }
         }
         mainProgram.End();
     }
@@ -64,7 +66,7 @@ public class Main{
     private void Start(){
         Utils.Debug("Program start");
         
-        Vector2 gridSize = new Vector2(300, 300);
+        Vector2 gridSize = new Vector2(200, 200);
 
         Main.instance.grid = new Grid(gridSize.x, gridSize.y);
         Main.instance.grid.FillGrid(20000,20);

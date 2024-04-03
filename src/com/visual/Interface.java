@@ -1,13 +1,10 @@
 package com.visual;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 
 import com.main.*;
 import com.main.Utils.DebugType;
@@ -28,6 +25,7 @@ public class Interface {
     private JPanel gridPanel;
 
     private boolean windowOpen = false;
+    private boolean loaded = false;
 
     public Interface(int width, int height, int numRows, int numCols) {
         this.width = width;
@@ -62,12 +60,13 @@ public class Interface {
         mainFrame.setLocationRelativeTo(null);
     
         // Create buttons for Next Step and Previous Step
-        JPanel nextPrevPanel = createButtonPanel("Previous Step","Next Step",
-                 "Previous Step clicked!","Next Step clicked!");
+        JPanel nextPrevPanel = createButtonPanel("Next Step", "");
     
         // Create buttons for Play auto and Pause
-        JPanel playPausePanel = createButtonPanel("Play", "Pause",
-                "Play clicked!", "Pause clicked!");
+        JPanel playPausePanel = createButtonPanel("Play", "Pause");
+        
+        addListeners(nextPrevPanel);
+        addListeners(playPausePanel);
     
         // Center button panels vertically with space between them
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
@@ -81,6 +80,52 @@ public class Interface {
         windowOpen = true;
 
         createGridPanel(numRows, numCols);
+    }
+
+    // Method to add listeners to buttons
+    private void addListeners(JPanel panel) {
+        Component[] components = panel.getComponents();
+        
+        for (Component component : components) {
+            if (component instanceof JButton) {
+                JButton button = (JButton) component;
+                
+                button.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String action = e.getActionCommand();
+                        
+                        switch (action) {
+                            case "Next Step":
+                                nextStepClicked();
+                                break;
+                            case "Play":
+                                playClicked();
+                                break;
+                            case "Pause":
+                                pauseClicked();
+                                break;
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    // Functions to be executed when buttons are clicked
+    private void nextStepClicked() {
+        System.out.println("Step");
+        Main.instance.grid.NextStep();
+    }
+    
+    private void playClicked() {
+        System.out.println("Play");
+        Main.instance.isPaused = false;
+    }
+    
+    private void pauseClicked() {
+        System.out.println("Pause");
+        Main.instance.isPaused = true;
     }
 
     private void createGridPanel(int numRows, int numCols) {
@@ -140,38 +185,35 @@ public class Interface {
         return panel;
     }
 
-    private JPanel createButtonPanel(String buttonText1, String buttonText2, String action1, String action2) {
+    private JPanel createButtonPanel(String buttonText1, String buttonText2) {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.DARK_GRAY); // Set background color to dark grey
 
-        JButton button1 = createButton(buttonText1, e -> {
-            JOptionPane.showMessageDialog(mainFrame, action1);
-        });
-        JButton button2 = createButton(buttonText2, e -> {
-            JOptionPane.showMessageDialog(mainFrame, action2);
-        });
+        JButton button1 = createButton(buttonText1);
 
         // Set button alignment to center
         button1.setAlignmentX(Component.CENTER_ALIGNMENT);
-        button2.setAlignmentX(Component.CENTER_ALIGNMENT);
-
         // Set preferred size of buttons to match
         button1.setPreferredSize(new Dimension(120, button1.getPreferredSize().height));
-        button2.setPreferredSize(new Dimension(120, button2.getPreferredSize().height));
-
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
         buttonPanel.add(Box.createHorizontalGlue());
         buttonPanel.add(button1);
-        buttonPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Add spacing between buttons
-        buttonPanel.add(button2);
-        buttonPanel.add(Box.createHorizontalGlue());
+
+        if(buttonText2 !=""){
+            JButton button2 = createButton(buttonText2);
+            button2.setAlignmentX(Component.CENTER_ALIGNMENT);
+            button2.setPreferredSize(new Dimension(120, button2.getPreferredSize().height));
+            buttonPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Add spacing between buttons
+            buttonPanel.add(button2);
+            buttonPanel.add(Box.createHorizontalGlue());
+        }
+
 
         return buttonPanel;
     }
 
-    private JButton createButton(String text, ActionListener actionListener) {
+    private JButton createButton(String text) {
         JButton button = new JButton(text);
-        button.addActionListener(actionListener);
         return button;
     }
 
@@ -198,22 +240,28 @@ public class Interface {
     public void displayGrid(Grid grid) {
         Vector2 size = grid.GetSize();
     
-        while (gridPanel == null) {
-            try {
-                Thread.sleep(100); // Add a short delay to reduce CPU usage
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt(); // Restore interrupted status
+        if (!loaded){
+            System.out.println("\n");
+            while (gridPanel == null) {
+                try {
+                    Thread.sleep(100); // Add a short delay to reduce CPU usage
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt(); // Restore interrupted status
+                }
             }
-        }
-    
-        // Ensure renderPanel has the correct number of components
-        int expectedComponents = size.x * size.y;
-        while (gridPanel.getComponentCount() != expectedComponents) {
-            try {
-                Thread.sleep(100); // Add a short delay to reduce CPU usage
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt(); // Restore interrupted status
+            System.out.println("Grid initialized successfully.");
+        
+            // Ensure renderPanel has the correct number of components
+            int expectedComponents = size.x * size.y;
+            while (gridPanel.getComponentCount() != expectedComponents) {
+                try {
+                    Thread.sleep(100); // Add a short delay to reduce CPU usage
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt(); // Restore interrupted status
+                }
             }
+            System.out.println("Grid elements loaded.");
+            loaded = true;
         }
     
         for (int i = 0; i < size.y; i++) {
