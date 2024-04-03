@@ -127,7 +127,7 @@ public class Interface {
     }
     
     private void playClicked() {
-        System.out.println("Play auto clicked!");
+        System.out.println("Play clicked!");
         // Add your logic here
     }
     
