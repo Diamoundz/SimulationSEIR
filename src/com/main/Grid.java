@@ -187,6 +187,18 @@ public class Grid {
         System.out.println("=============================================================");
     }
 
+    public HashMap<Subject.Status,Integer> GetInfoHashMap(){
+        HashMap<Subject.Status,Integer> info = new HashMap<Subject.Status,Integer>();
+        info.put(Subject.Status.S, 0);
+        info.put(Subject.Status.E, 0);
+        info.put(Subject.Status.I, 0);
+        info.put(Subject.Status.R, 0);
+        for(int i = 0; i<population.size();i++){
+            info.replace(population.get(i).GetStatus(), info.get(population.get(i).GetStatus())+1);
+        }
+        return info;
+    }
+
 
     public void FillGrid(int popCount, int infectedCount){
         int remainingInfected = infectedCount;

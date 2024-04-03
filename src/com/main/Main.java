@@ -96,7 +96,7 @@ public class Main{
             else {isRunning = false;}
         }
         else{
-            updateProgressBar(currentSimulationCount, SIMULATION_COUNT*SIMULATION_ITERATIONS);
+            Utils.UpdateProgressBar(currentSimulationCount, SIMULATION_COUNT*SIMULATION_ITERATIONS);
         }
 
         int endTime =Utils.GetRunTime();
@@ -113,7 +113,7 @@ public class Main{
         if(currentSimulationCount == SIMULATION_COUNT *SIMULATION_ITERATIONS-1){
 
             if(!USE_GUI){
-                updateProgressBar(1,1);
+                Utils.UpdateProgressBar(1,1);
                 System.out.print("\n");
             }
             Utils.Debug("Completed "+SIMULATION_COUNT*SIMULATION_ITERATIONS +" iterations, Shutting down ...");

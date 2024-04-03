@@ -47,7 +47,7 @@ public class Utils {
         return Main.instance.rand.nextInt(upperBound-lowerBound+1)+lowerBound;
     }
 
-    public static void updateProgressBar(int completed, int total) {
+    public static void UpdateProgressBar(int completed, int total) {
         double progress = (double) completed / total;
         DecimalFormat df = new DecimalFormat("0.000");
         String progressStr = df.format(progress * 100);
