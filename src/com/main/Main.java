@@ -18,7 +18,7 @@ public class Main{
     public static boolean ENABLE_TELEPORT_MOVEMENT = true; // Default : true
     public static boolean ENABLE_SUBJECT_DEATH = false; // Default : false
 
-    public static int SIMULATION_ITERATIONS = 25; // Default : 730
+    public static int SIMULATION_ITERATIONS = 40; // Default : 730
     public static int SIMULATION_COUNT = 3; // Default : 100
 
     public static int GRID_SIZE_X = 300; // Default : 300
@@ -32,7 +32,9 @@ public class Main{
     public int countedFpsIterations;
     public long startTime;
     public boolean isPaused;
-    public int currentSimulationStep;
+
+    public int currentSimulationStep = 0;
+
 
     private boolean isRunning = false;
     
