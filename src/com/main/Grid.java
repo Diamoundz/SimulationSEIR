@@ -1,12 +1,7 @@
 package com.main;
 
-import com.main.*;
-import com.main.Utils.DebugType;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
-import java.util.Vector;
 import java.awt.*;
 
 public class Grid {

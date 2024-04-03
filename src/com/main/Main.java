@@ -66,10 +66,10 @@ public class Main{
     private void Start(){
         Utils.Debug("Program start");
         
-        Vector2 gridSize = new Vector2(200, 200);
+        Vector2 gridSize = new Vector2(300, 300);
 
         Main.instance.grid = new Grid(gridSize.x, gridSize.y);
-        Main.instance.grid.FillGrid(40000,20);
+        Main.instance.grid.FillGrid(20000,20);
         
         if(USE_GUI){
             gui = new Interface(1000, 600, gridSize.x, gridSize.y);
