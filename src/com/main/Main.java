@@ -68,7 +68,7 @@ public class Main{
     private void Start(){
         Utils.Debug("Program start");
         
-        Vector2 gridSize = new Vector2(300, 200);
+        Vector2 gridSize = new Vector2(200, 300);
 
         Main.instance.grid = new Grid(gridSize.x, gridSize.y);
         Main.instance.grid.FillGrid(20000,20);
@@ -131,33 +131,6 @@ public class Main{
         System.exit(0);
     }
 
-     // Method to update progress bar
-    public static void updateProgressBar(int completed, int total) {
-        // Calculate progress percentage with 0.001 precision
-        double progress = (double) completed / total;
-        DecimalFormat df = new DecimalFormat("0.000");
-        String progressStr = df.format(progress * 100);
 
-        // Define length of progress bar
-        int barLength = 50;
-
-        // Calculate number of '=' characters to represent progress
-        int numOfBars = (int) (progress * barLength);
-
-        // Create progress bar string
-        StringBuilder progressBar = new StringBuilder("Progress : [");
-        for (int i = 0; i < barLength; i++) {
-            if (i < numOfBars) {
-                progressBar.append("=");
-            } else {
-                progressBar.append(" ");
-            }
-        }
-        progressBar.append("] " + progressStr + "%");
-
-        // Print progress bar
-        System.out.print("\r" + progressBar.toString());
-        System.out.flush();
-    }
 
 }

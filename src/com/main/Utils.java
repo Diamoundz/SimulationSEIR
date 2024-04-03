@@ -1,5 +1,7 @@
 package com.main;
 
+import java.text.DecimalFormat;
+
 import com.main.Main;
 
 public class Utils {
@@ -43,5 +45,28 @@ public class Utils {
     }
     public static int RandomRange(int lowerBound, int upperBound){
         return Main.instance.rand.nextInt(upperBound-lowerBound+1)+lowerBound;
+    }
+
+    public static void updateProgressBar(int completed, int total) {
+        double progress = (double) completed / total;
+        DecimalFormat df = new DecimalFormat("0.000");
+        String progressStr = df.format(progress * 100);
+
+        int barLength = 50;
+
+        int numOfBars = (int) (progress * barLength);
+
+        StringBuilder progressBar = new StringBuilder("Progress : [");
+        for (int i = 0; i < barLength; i++) {
+            if (i < numOfBars) {
+                progressBar.append("=");
+            } else {
+                progressBar.append(" ");
+            }
+        }
+        progressBar.append("] " + progressStr + "%");
+
+        System.out.print("\r" + progressBar.toString());
+        System.out.flush();
     }
 }
