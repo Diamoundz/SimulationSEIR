@@ -1,11 +1,4 @@
-/*
- * FIND FILES TO COMPILE : find ./src/ -type f -name "*.java" > sources.txt
- * COMPILE : javac -d ./build/ @sources.txt
- * RUN : java -cp ./build/ com.main.Main
- */
-
 package com.main;
-import com.main.Utils.DebugType;
 import com.visual.*;
 import java.util.Scanner;
 
@@ -17,18 +10,23 @@ public class Main{
     public static Main instance;
     private static double clockRunSpeed = (1f/60f)*1000f;
 
-    public static boolean USE_GUI = true; // Default : false;
+    public static boolean USE_GUI = false; // Default : false;
     public static boolean WAIT_FOR_USER_INPUT = false; // Default : false
-    public static boolean ENABLE_TELEPORT_MOVEMENT = false; // Default : true
+    public static boolean ENABLE_TELEPORT_MOVEMENT = true; // Default : true
     public static boolean ENABLE_SUBJECT_DEATH = false; // Default : false
 
-    public Utils.DebugType debugType = Utils.DebugType.none;
-    private boolean isRunning = false;
+    public static int SIMULATION_ITERATIONS = 730;
+    public static int SIMULATION_COUNT = 100;
 
+    public Utils.DebugType debugType = Utils.DebugType.none;
     public double countedFps;
     public int countedFpsIterations;
-
     public long startTime;
+
+    private boolean isRunning = false;
+    private int currentSimulationCount = 0;
+    private double currentProgressFraction = 0;
+    
     public MersenneTwister rand;
     public Scanner scanner = new Scanner(System.in);
     public Interface gui;
@@ -71,6 +69,8 @@ public class Main{
         Main.instance.grid = new Grid(gridSize.x, gridSize.y);
         Main.instance.grid.FillGrid(20000,20);
         
+
+
         if(USE_GUI){
             gui = new Interface(1000, 600, gridSize.x, gridSize.y);
             gui.displayGrid(grid);
@@ -91,6 +91,10 @@ public class Main{
             if (gui.isActive()){gui.displayGrid(grid);}
             else {isRunning = false;}
         }
+        else{
+            updateProgressBar(currentSimulationCount, SIMULATION_COUNT*SIMULATION_ITERATIONS);
+        }
+
         int endTime =Utils.GetRunTime();
         int frameTime = endTime-startTime;
 
@@ -101,6 +105,13 @@ public class Main{
         {
             grid.DebugPopulationInfo();
         }
+
+        if(currentSimulationCount == SIMULATION_COUNT *SIMULATION_ITERATIONS-1){
+            Utils.Debug("Completed "+SIMULATION_COUNT*SIMULATION_ITERATIONS +" iterations, Shutting down ...");
+            isRunning = false;
+        }
+
+        currentSimulationCount++;
         Utils.Debug("Current step completed in "+frameTime +" ms.",Utils.DebugType.timeStamps);
     }
 
@@ -109,6 +120,32 @@ public class Main{
         Utils.Debug("Average FPS at runtime: "+ 1/((float)(Main.instance.countedFps/Main.instance.countedFpsIterations)/1000));
         Utils.Debug("Program ended");
         System.exit(0);
+    }
+
+    public static void updateProgressBar(int completed, int total) {
+        // Calculate progress percentage
+        int progress = (int) (100.0 * completed / total);
+
+        // Define length of progress bar
+        int barLength = 50;
+
+        // Calculate number of '=' characters to represent progress
+        int numOfBars = (int) (progress * barLength / 100.0);
+
+        // Create progress bar string
+        StringBuilder progressBar = new StringBuilder("[");
+        for (int i = 0; i < barLength; i++) {
+            if (i < numOfBars) {
+                progressBar.append("=");
+            } else {
+                progressBar.append(" ");
+            }
+        }
+        progressBar.append("] " + progress + "%");
+
+        // Print progress bar
+        System.out.print("\r" + progressBar.toString());
+        System.out.flush();
     }
 
 }
