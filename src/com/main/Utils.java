@@ -2,8 +2,6 @@ package com.main;
 
 import java.text.DecimalFormat;
 
-import com.main.Main;
-
 public class Utils {
     public enum DebugType{
         all,

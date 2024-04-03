@@ -4,10 +4,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 import java.awt.*;
-import java.awt.event.*;
-
 import com.main.*;
-import com.main.Utils.DebugType;
 
 public class Interface {
 
@@ -182,7 +179,7 @@ public class Interface {
                     Thread.currentThread().interrupt(); // Restore interrupted status
                 }
             }
-            System.out.println("GUI elements loaded.");
+            System.out.println("\nGUI elements loaded.\n");
             loaded = true;
         }
     
@@ -202,8 +199,8 @@ public class Interface {
                 cellPanel.setBackground(cellColor);
             }
         }
-        int maxIter = Main.SIMULATION_COUNT*Main.SIMULATION_ITERATIONS;
-        int percentage = (int)((double) Main.instance.currentSimulationStep/maxIter*100);
+        int maxIter = Main.SIMULATION_COUNT * Main.SIMULATION_ITERATIONS;
+        int percentage = (int)((double) Main.instance.currentSimulationStep / maxIter * 100);
         progressBar.setValue(percentage);
         System.out.println(percentage);
     }
