@@ -135,7 +135,6 @@ public class Interface {
 
         return buttonPanel;
     }
-
     private JButton createButton(String text) {
         JButton button = new JButton(text);
         return button;
