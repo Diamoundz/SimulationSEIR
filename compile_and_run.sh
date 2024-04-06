@@ -1,10 +1,21 @@
 #!/bin/bash
 
-# Step 1: Find files to compile and store in sources.txt
-find ./src/ -type f -name "*.java" > sources.txt
+# Compile Java files in src/com/visual and src/com/main
+echo "Compiling Java files in src/com/visual"
+find "src/com/visual" -name "*.java" > visual_sources.txt
 
-# Step 2: Compile the Java files using javac
-javac -d ./build/ -Xlint:unchecked @sources.txt
+echo "Compiling Java files in src/com/main"
+find "src/com/main" -name "*.java" > main_sources.txt
 
-# Step 3: Run the compiled program using java
-java -cp ./build/ com.main.Main
+# Combine both source lists
+cat visual_sources.txt main_sources.txt > all_sources.txt
+
+# Compile all Java files together
+javac -d "build" @all_sources.txt
+
+# Clean up temporary files
+rm visual_sources.txt main_sources.txt all_sources.txt
+
+# Launch Main class
+echo "Launching Main class"
+java -cp "build" com.main.Main
